@@ -1,1 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hire95 - The Modern Talent Data Bank</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Modern SaaS Theme Variables - Extracted from Logo */
+        :root {
+            --bg-body: #fbfbfe;
+            --bg-surface: #ffffff;
+            --text-main: #231f20; /* Dark gray/black from 'hire' */
+            --text-muted: #6b7280;
+            --accent-purple: #92278f; /* Purple from '95' box */
+            --accent-purple-hover: #7a1f78;
+            --accent-purple-light: #f4e8f5;
+            --border-light: #e5e7eb;
+            --border-radius: 20px;
+            --shadow-smooth: 0 10px 30px rgba(0, 0, 0, 0.04);
+            --shadow-hover: 0 20px 40px rgba(146, 39, 143, 0.1);
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* Top Navigation */
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 20px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-light);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .brand {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .brand-logo-img {
+            height: 38px;
+            width: auto;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .brand-logo-img:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links { display: flex; gap: 24px; }
+
+        .nav-link {
+            background: transparent; border: none; font-size: 15px;
+            font-weight: 600; color: var(--text-muted); cursor: pointer;
+            transition: color 0.3s ease, transform 0.2s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--accent-purple);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn {
+            background: var(--text-main); color: white; border: none;
+            padding: 12px 24px; border-radius: 30px; font-weight: 600;
+            cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-btn:hover {
+            background: var(--accent-purple);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(146, 39, 143, 0.2);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px; margin: 0 auto; padding: 48px 24px;
+            flex: 1; width: 100%;
+        }
+
+        /* ==========================================
+           ANIMATIONS
+        ========================================== */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .animate-up { animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; opacity: 0; }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+
+        /* ==========================================
+           1. LANDING PAGE
+        ========================================== */
+        .landing-hero {
+            text-align: center; padding: 80px 0 60px 0;
+        }
+
+        .landing-hero h1 {
+            font-size: 64px; font-weight: 800; letter-spacing: -2px;
+            line-height: 1.1; margin-bottom: 24px; color: var(--text-main);
+        }
+
+        .landing-hero h1 span {
+            background: linear-gradient(135deg, var(--accent-purple), #c337c0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .landing-hero p {
+            font-size: 20px; color: var(--text-muted); max-width: 700px;
+            margin: 0 auto 40px auto; line-height: 1.6;
+        }
+
+        .hero-buttons { display: flex; justify-content: center; gap: 16px; }
+
+        .btn-large {
+            padding: 16px 36px; font-size: 16px; font-weight: 600;
+            border-radius: 40px; cursor: pointer; border: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-primary {
+            background: var(--accent-purple); color: white;
+            box-shadow: 0 4px 14px rgba(146, 39, 143, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-purple-hover);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 24px rgba(146, 39, 143, 0.4);
+        }
+
+        .btn-secondary {
+            background: white; color: var(--text-main);
+            border: 1px solid var(--border-light);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-purple); color: var(--accent-purple);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-smooth);
+        }
+
+        /* How It Works Section */
+        .how-it-works { margin-top: 100px; text-align: center; }
+        .how-it-works h2 { font-size: 32px; font-weight: 700; margin-bottom: 48px; }
+
+        .steps-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+        }
+
+        .step-card {
+            padding: 32px; background: var(--bg-surface);
+            border-radius: var(--border-radius); border: 1px solid var(--border-light);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--accent-purple-light);
+        }
+
+        .step-icon {
+            width: 70px; height: 70px; background: var(--accent-purple-light);
+            color: var(--accent-purple); border-radius: 50%; display: flex;
+            align-items: center; justify-content: center; font-size: 28px;
+            font-weight: 800; margin: 0 auto 24px auto;
+            transition: transform 0.4s ease;
+        }
+
+        .step-card:hover .step-icon { transform: rotate(10deg) scale(1.1); }
+        .step-card h3 { font-size: 20px; margin-bottom: 12px; }
+        .step-card p { color: var(--text-muted); font-size: 15px; line-height: 1.6; }
+
+        /* CTA Banner */
+        .cta-banner {
+            background: linear-gradient(135deg, var(--text-main), #3a3436);
+            color: white; border-radius: 24px; padding: 64px; text-align: center;
+            margin-top: 100px; margin-bottom: 40px; position: relative; overflow: hidden;
+        }
+
+        .cta-banner h2 { font-size: 36px; font-weight: 700; margin-bottom: 16px; }
+        .cta-banner p { font-size: 18px; opacity: 0.9; margin-bottom: 32px; max-width: 600px; margin-left: auto; margin-right: auto; }
+
+        /* ==========================================
+           2. CANDIDATE (RESUME BUILDER)
+        ========================================== */
+        .section-header { text-align: center; margin-bottom: 40px; }
+        .section-header h2 { font-size: 32px; font-weight: 700; margin-bottom: 12px; }
+        .section-header p { color: var(--text-muted); font-size: 16px; }
+
+        .resume-builder {
+            background: var(--bg-surface); padding: 40px; border-radius: var(--border-radius);
+            box-shadow: var(--shadow-smooth); border: 1px solid var(--border-light);
+            max-width: 800px; margin: 0 auto;
+            transition: transform 0.3s ease;
+        }
+
+        .resume-builder:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .form-group.full-width { grid-column: span 2; }
+        .form-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--text-main);}
+        .form-group input, .form-group textarea {
+            width: 100%; padding: 14px; border: 1px solid var(--border-light);
+            border-radius: 12px; font-size: 15px; outline: none; transition: all 0.3s ease;
+            background: #fafafa;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--accent-purple); background: white;
+            box-shadow: 0 0 0 4px var(--accent-purple-light);
+        }
+        
+        .submit-btn {
+            background: var(--accent-purple); color: white; border: none; padding: 16px 32px;
+            border-radius: 30px; font-size: 16px; font-weight: 600; cursor: pointer;
+            width: 100%; margin-top: 24px; transition: all 0.3s ease;
+        }
+        .submit-btn:hover { background: var(--accent-purple-hover); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(146, 39, 143, 0.2); }
+
+        /* ==========================================
+           3. RECRUITER SEARCH & ASYMMETRICAL BENTO
+        ========================================== */
+        .search-container { display: flex; gap: 16px; max-width: 700px; margin: 0 auto 48px auto; }
+        .search-container input {
+            flex: 1; padding: 18px 24px; border: 1px solid var(--border-light);
+            border-radius: 30px; font-size: 16px; outline: none; box-shadow: var(--shadow-smooth);
+            transition: all 0.3s ease;
+        }
+        .search-container input:focus { border-color: var(--accent-purple); box-shadow: 0 0 0 4px var(--accent-purple-light); }
+        .search-btn { background: var(--accent-purple); color: white; border: none; padding: 0 32px; border-radius: 30px; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+        .search-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(146, 39, 143, 0.2); }
+
+        /* Asymmetrical Bento Grid */
+        .bento-results {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; display: none;
+            grid-auto-rows: minmax(180px, auto);
+        }
+
+        .span-2x2 { grid-column: span 2; grid-row: span 2; }
+        .span-1x2 { grid-column: span 1; grid-row: span 2; }
+        .span-2x1 { grid-column: span 2; grid-row: span 1; }
+
+        .candidate-card {
+            background: var(--bg-surface); padding: 28px; border-radius: var(--border-radius);
+            border: 1px solid var(--border-light); display: flex; flex-direction: column;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative; overflow: hidden;
+        }
+        
+        .candidate-card:hover {
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--accent-purple-light);
+        }
+
+        .c-header { display: flex; justify-content: space-between; margin-bottom: 16px; }
+        .c-name { font-size: 22px; font-weight: 700; color: var(--text-main); }
+        .c-title { font-size: 14px; color: var(--accent-purple); font-weight: 600; margin-top: 4px;}
+        .c-exp { background: var(--text-main); color: white; padding: 6px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+        .c-skills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; margin-bottom: 24px; }
+        .skill-tag { background: var(--accent-purple-light); color: var(--accent-purple-hover); padding: 6px 14px; border-radius: 16px; font-size: 12px; font-weight: 600; }
+        
+        .view-btn { 
+            margin-top: auto; background: transparent; border: 1px solid var(--border-light); 
+            padding: 12px; border-radius: 20px; font-size: 14px; font-weight: 600; 
+            cursor: pointer; transition: all 0.3s; color: var(--text-main);
+        }
+        .view-btn:hover { background: var(--accent-purple); color: white; border-color: var(--accent-purple); }
+
+        /* Footer */
+        .footer { border-top: 1px solid var(--border-light); padding: 48px 24px; margin-top: auto; background: var(--bg-surface); }
+        .footer-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .footer-logo img { height: 24px; opacity: 0.8; margin-bottom: 8px; filter: grayscale(100%); transition: filter 0.3s;}
+        .footer-logo img:hover { filter: grayscale(0%); }
+        .footer-text { color: var(--text-muted); font-size: 14px; }
+        .footer-contact a { color: var(--text-main); text-decoration: none; font-weight: 500; font-size: 15px; margin-left: 24px; transition: color 0.2s;}
+        .footer-contact a:hover { color: var(--accent-purple); }
+
+        .hidden { display: none !important; }
+
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="brand" onclick="navigateTo('landing')">
+            <img src="logo@8x.png" alt="hire95 Logo" class="brand-logo-img">
+        </div>
+        
+        <div class="nav-links">
+            <button class="nav-link active" id="nav-landing" onclick="navigateTo('landing')">Home</button>
+            <button class="nav-link" id="nav-candidate" onclick="navigateTo('candidate')">For Candidates</button>
+            <button class="nav-link" id="nav-recruiter" onclick="navigateTo('recruiter')">For Recruiters</button>
+        </div>
+        <button class="nav-btn" onclick="navigateTo('recruiter')">Start Hiring</button>
+    </nav>
+
+    <div class="container">
+        
+        <!-- SECTION 1: LANDING PAGE -->
+        <div id="landingSection">
+            <div class="landing-hero animate-up">
+                <h1>The Modern Data Bank <br>for <span>Top Talent</span>.</h1>
+                <p>Not just another social network. A streamlined data bank where candidates build profiles, and recruiters get instant access to exact matches. No clutter, just hiring.</p>
+                
+                <div class="hero-buttons">
+                    <button class="btn-large btn-primary" onclick="navigateTo('candidate')">Enter Data Bank</button>
+                    <button class="btn-large btn-secondary" onclick="navigateTo('recruiter')">Recruiter Portal</button>
+                </div>
+            </div>
+
+            <div class="how-it-works">
+                <h2 class="animate-up delay-1">How hire95 Works</h2>
+                <div class="steps-grid">
+                    <div class="step-card animate-up delay-1">
+                        <div class="step-icon">1</div>
+                        <h3>Create Profile</h3>
+                        <p>Candidates fill out a clean, standardized form. No messy PDFs or formatting issues to worry about.</p>
+                    </div>
+                    <div class="step-card animate-up delay-2">
+                        <div class="step-icon">2</div>
+                        <h3>Data Bank Storage</h3>
+                        <p>Profiles are instantly stored in our structured database, ready to be discovered by top organizations.</p>
+                    </div>
+                    <div class="step-card animate-up delay-3">
+                        <div class="step-icon">3</div>
+                        <h3>Recruiters Hire</h3>
+                        <p>Recruiters search roles and instantly view authentic, bento-style candidate cards to make hiring decisions.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cta-banner animate-up delay-2">
+                <h2>Ready to streamline your hiring?</h2>
+                <p>Join hundreds of recruiters who have ditched the traditional noise for a pure data-driven hiring experience.</p>
+                <button class="btn-large" style="background: white; color: var(--accent-purple);" onclick="navigateTo('recruiter')">Start Searching Now</button>
+            </div>
+        </div>
+
+        <!-- SECTION 2: CANDIDATE (RESUME BUILDER) -->
+        <div id="candidateSection" class="hidden">
+            <div class="section-header animate-up">
+                <h2>Join the Data Bank</h2>
+                <p>Fill out your details. Your profile will be instantly searchable by top recruiters.</p>
+            </div>
+
+            <form class="resume-builder animate-up delay-1" onsubmit="submitToGoogleSheet(event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="candName" placeholder="e.g. Ali Rahman" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="candEmail" placeholder="ali@example.com" required>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Target Position / Title</label>
+                        <input type="text" id="candTitle" placeholder="e.g. Full Stack Developer" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Years of Experience</label>
+                        <input type="number" id="candExp" placeholder="e.g. 3" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Top Skills (Comma separated)</label>
+                        <input type="text" id="candSkills" placeholder="React, Node.js, UI/UX" required>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Brief Summary / Bio</label>
+                        <textarea id="candBio" rows="4" placeholder="Describe your expertise and what you are looking for..."></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">Add Profile to Data Bank</button>
+            </form>
+        </div>
+
+        <!-- SECTION 3: RECRUITER SEARCH PORTAL -->
+        <div id="recruiterSection" class="hidden">
+            <div class="section-header animate-up">
+                <h2>Recruiter Workspace</h2>
+                <p>Search the Data Bank. Find exactly who you need to hire.</p>
+            </div>
+
+            <div class="search-container animate-up delay-1">
+                <input type="text" id="searchInput" placeholder="Search by position (e.g. Marketing Manager)...">
+                <button class="search-btn" onclick="searchGoogleSheet()">Search</button>
+            </div>
+
+            <!-- Asymmetrical Bento Grid Structure -->
+            <div class="bento-results" id="resultsGrid">
+                
+                <!-- Large Card (Span 2x2) -->
+                <div class="candidate-card span-2x2 animate-up delay-1">
+                    <div class="c-header">
+                        <div>
+                            <div class="c-name">Saad Tariq</div>
+                            <div class="c-title">Senior Marketing Manager</div>
+                        </div>
+                        <div class="c-exp">8 Yrs Exp</div>
+                    </div>
+                    <p style="font-size: 15px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px;">Data-driven marketing manager with a proven track record in B2B SaaS growth, technical SEO, and scaling paid acquisition channels across global markets.</p>
+                    <div class="c-skills">
+                        <span class="skill-tag">Digital Marketing</span>
+                        <span class="skill-tag">Technical SEO</span>
+                        <span class="skill-tag">Google Ads</span>
+                        <span class="skill-tag">B2B Strategy</span>
+                    </div>
+                    <button class="view-btn">View Full Profile</button>
+                </div>
+
+                <!-- Vertical Card (Span 1x2) -->
+                <div class="candidate-card span-1x2 animate-up delay-2">
+                    <div class="c-header" style="flex-direction: column; gap: 12px;">
+                        <div>
+                            <div class="c-name">Zoya Khan</div>
+                            <div class="c-title">UI/UX Designer</div>
+                        </div>
+                        <div class="c-exp" style="align-self: flex-start;">3 Yrs Exp</div>
+                    </div>
+                    <div class="c-skills">
+                        <span class="skill-tag">Figma</span>
+                        <span class="skill-tag">Prototyping</span>
+                    </div>
+                    <button class="view-btn">View Profile</button>
+                </div>
+
+                <!-- Standard Card (Span 1x1) -->
+                <div class="candidate-card span-1x2 animate-up delay-3">
+                    <div class="c-header" style="flex-direction: column; gap: 12px;">
+                        <div>
+                            <div class="c-name">Omar Ali</div>
+                            <div class="c-title">Frontend Dev</div>
+                        </div>
+                        <div class="c-exp" style="align-self: flex-start;">2 Yrs Exp</div>
+                    </div>
+                    <div class="c-skills">
+                        <span class="skill-tag">React.js</span>
+                        <span class="skill-tag">Tailwind</span>
+                    </div>
+                    <button class="view-btn">View Profile</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div>
+                <div class="footer-logo">
+                    <img src="logo@8x.png" alt="hire95">
+                </div>
+                <div class="footer-text">&copy; 2026 hire95 Data Bank. Crafted for modern hiring.</div>
+            </div>
+            <div class="footer-contact">
+                <a href="#">Support</a>
+                <a href="#">Privacy Policy</a>
+                <a href="mailto:hello@hire95.com">Contact Us</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 20) {
+                nav.style.boxShadow = '0 4px 20px rgba(0,0,0,0.05)';
+            } else {
+                nav.style.boxShadow = 'none';
+            }
+        });
+
+        function navigateTo(section) {
+            document.getElementById('landingSection').classList.add('hidden');
+            document.getElementById('candidateSection').classList.add('hidden');
+            document.getElementById('recruiterSection').classList.add('hidden');
+
+            document.getElementById('nav-landing').classList.remove('active');
+            document.getElementById('nav-candidate').classList.remove('active');
+            document.getElementById('nav-recruiter').classList.remove('active');
+
+            if(section === 'landing') {
+                document.getElementById('landingSection').classList.remove('hidden');
+                document.getElementById('nav-landing').classList.add('active');
+            } else if (section === 'candidate') {
+                document.getElementById('candidateSection').classList.remove('hidden');
+                document.getElementById('nav-candidate').classList.add('active');
+            } else if (section === 'recruiter') {
+                document.getElementById('recruiterSection').classList.remove('hidden');
+                document.getElementById('nav-recruiter').classList.add('active');
+            }
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Re-trigger animations
+            const animatedElements = document.querySelectorAll('.animate-up');
+            animatedElements.forEach(el => {
+                el.style.animation = 'none';
+                el.offsetHeight; /* trigger reflow */
+                el.style.animation = null; 
+            });
+        }
+
+        function submitToGoogleSheet(event) {
+            event.preventDefault();
+            alert("Success! Your profile is securely saved in the hire95 Data Bank.");
+            event.target.reset();
+            navigateTo('landing');
+        }
+
+        function searchGoogleSheet() {
+            const query = document.getElementById('searchInput').value;
+            if(!query) { alert("Please enter a position."); return; }
+            document.getElementById('resultsGrid').style.display = 'grid';
+        }
+    </script>
+</body>
+</html>
