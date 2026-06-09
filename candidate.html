@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>hire95 — Talent Data Bank</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --ink: #111827; --ink-2: #374151; --ink-3: #4b5563;
+  --muted: #6b7280; --muted-2: #9ca3af;
+  --surface: #ffffff; --bg: #fafafa; --bg-warm: #f3f4f6;
+  --accent: #92278f; --accent-dark: #7a1f78; --accent-light: #fdf5fd;
+  --accent-glow: rgba(146, 39, 143, 0.15);
+  --teal: #10b981; --coral: #ef4444;
+  --border: #e5e7eb; --border-strong: #d1d5db;
+  --r-sm: 12px; --r-md: 20px; --r-lg: 32px; --r-xl: 48px;
+  --font-display: 'Outfit', sans-serif; --font-body: 'Inter', sans-serif;
+  --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  --shadow-float: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+  --shadow-accent: 0 8px 24px rgba(146, 39, 143, 0.25);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body); background: var(--bg); color: var(--ink);
+  min-height: 100vh; overflow-x: hidden; cursor: default;
+  background-image: radial-gradient(var(--border) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--muted-2); border-radius: 10px; }
+
+/* NAVBAR */
+.navbar {
+  position: sticky; top: 0; z-index: 100; padding: 18px 5%;
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border); transition: padding 0.4s ease;
+}
+.navbar.compact { padding: 12px 5%; box-shadow: var(--shadow-card); }
+.nav-brand { font-family: var(--font-display); font-size: 24px; font-weight: 800; color: var(--ink); letter-spacing: -0.02em; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+.nav-brand-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 12px var(--accent-glow); animation: breathe 3s ease-in-out infinite; }
+@keyframes breathe { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(0.8); } }
+.nav-center { display: flex; gap: 4px; background: white; padding: 6px 18px; border-radius: 100px; border: 1px solid var(--border); box-shadow: var(--shadow-card); }
+.nav-pill { font-family: var(--font-body); font-size: 14px; font-weight: 500; color: var(--muted); background: transparent; border: none; padding: 8px 16px; border-radius: 100px; cursor: pointer; transition: all 0.25s ease; }
+.nav-pill:hover { color: var(--ink); }
+.nav-pill.active { background: var(--bg); color: var(--ink); font-weight: 600; }
+
+/* LAYOUT */
+.wrap { max-width: 1300px; margin: 0 auto; padding: 0 5%; }
+.page { display: none; animation: pageIn 0.6s cubic-bezier(0.16,1,0.3,1) forwards; }
+.page.active { display: block; }
+@keyframes pageIn { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+.btn-outline { background: transparent; color: var(--ink); border: 1px solid var(--border-strong); font-family: var(--font-body); font-size: 13px; font-weight: 600; padding: 10px 16px; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+.btn-outline:hover { background: var(--bg-warm); }
+
+/* CANDIDATE DASHBOARD */
+.cand-page { padding: 48px 5%; max-width: 1300px; margin: 0 auto; }
+.cand-header { margin-bottom: 40px; }
+.cand-header h2 { font-family: var(--font-display); font-size: 40px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 12px; }
+.cand-header p { font-size: 16px; color: var(--muted); }
+.cand-layout { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 40px; align-items: start; }
+
+/* Feed Column */
+.feed-col { background: white; border: 1px solid var(--border); border-radius: var(--r-md); overflow: hidden; box-shadow: var(--shadow-card); position: sticky; top: 90px; height: 850px; display: flex; flex-direction: column; }
+.feed-topbar { padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.feed-topbar-title { font-family: var(--font-display); font-size: 18px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.live-badge { background: #dcfce7; color: #16a34a; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; padding: 4px 10px; border-radius: 100px; }
+.feed-list { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+
+.jcard { background: var(--bg); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 20px; cursor: pointer; transition: all 0.3s ease; position: relative; }
+.jcard::after { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 4px; height: 0; background: var(--accent); border-radius: 0 4px 4px 0; transition: height 0.3s ease; }
+.jcard:hover { background: white; border-color: var(--accent); transform: translateX(4px); box-shadow: var(--shadow-card); }
+.jcard:hover::after { height: 60%; }
+.jcard-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+.jcard-role { font-family: var(--font-display); font-size: 16px; font-weight: 600; margin-bottom: 4px; color: var(--ink); }
+.jcard-company { font-size: 13px; color: var(--muted); }
+.jcard-salary { background: #ecfdf5; color: #059669; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 100px; white-space: nowrap; }
+.jcard-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.jmeta-tag { background: white; color: var(--muted); border: 1px solid var(--border); font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 6px; }
+.jcard-apply { width: 100%; background: transparent; color: var(--ink); font-family: var(--font-body); font-size: 13px; font-weight: 600; padding: 10px; border-radius: 8px; border: 1px solid var(--border-strong); cursor: pointer; transition: all 0.2s; }
+.jcard:hover .jcard-apply { background: var(--accent-light); color: var(--accent); border-color: var(--accent-light); }
+
+/* Form Column */
+.form-col { background: white; border: 1px solid var(--border); border-radius: var(--r-md); overflow-y: auto; box-shadow: var(--shadow-float); height: 850px; position: relative; }
+.form-topbar { position: absolute; top: 0; left: 0; width: 100%; height: 6px; background: linear-gradient(to right, var(--accent), #c337c0); }
+.form-inner { padding: 40px; margin-top: 6px; }
+.form-inner h2 { font-family: var(--font-display); font-size: 28px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 8px; }
+.form-inner .form-sub { font-size: 14px; color: var(--muted); line-height: 1.5; margin-bottom: 24px; }
+.profile-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--accent-light); color: var(--accent); font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 100px; margin-bottom: 32px; border: 1px solid rgba(146,39,143,0.1); }
+.form-row { display: grid; gap: 16px; margin-bottom: 20px; }
+.form-row.cols-2 { grid-template-columns: 1fr 1fr; }
+.field label { display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 8px; }
+.field input, .field textarea { width: 100%; background: var(--bg); border: 1px solid var(--border-strong); border-radius: 10px; padding: 14px 16px; font-size: 14px; font-family: var(--font-body); color: var(--ink); outline: none; transition: all 0.25s ease; resize: vertical; }
+.field input:focus, .field textarea:focus { background: white; border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-glow); }
+.availability-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; }
+.avail-btn { background: var(--bg); border: 1px solid var(--border-strong); color: var(--muted); font-family: var(--font-body); font-size: 13px; font-weight: 500; padding: 10px 18px; border-radius: 100px; cursor: pointer; transition: all 0.2s; }
+.avail-btn.selected { background: var(--accent-light); border-color: var(--accent); color: var(--accent); font-weight: 600; }
+
+/* Dynamic Experience Blocks */
+.exp-block { background: var(--bg-warm); border: 1px solid var(--border-strong); border-radius: 12px; padding: 20px; margin-bottom: 16px; position: relative; }
+.exp-block input, .exp-block textarea { background: white; border: 1px solid var(--border); margin-bottom: 12px; }
+.exp-remove { position: absolute; top: 16px; right: 16px; background: transparent; border: none; color: var(--coral); font-size: 12px; font-weight: 600; cursor: pointer; }
+.form-submit { width: 100%; background: var(--ink); color: white; font-family: var(--font-body); font-size: 15px; font-weight: 600; padding: 16px; border-radius: 10px; border: none; cursor: pointer; transition: all 0.3s ease; margin-top: 24px; }
+.form-submit:hover { background: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow-float); }
+
+/* RECRUITER PAGE */
+.rec-page { padding: 48px 5%; max-width: 1300px; margin: 0 auto; }
+.rec-hero { text-align: center; margin-bottom: 48px; }
+.rec-hero h2 { font-family: var(--font-display); font-size: clamp(36px, 5vw, 48px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 16px; }
+.rec-hero h2 em { font-style: normal; color: var(--accent); }
+.rec-hero p { font-size: 18px; color: var(--muted); max-width: 500px; margin: 0 auto 36px; }
+.rec-search-wrap { max-width: 700px; margin: 0 auto 60px; background: white; border: 1px solid var(--border-strong); border-radius: 100px; padding: 8px 8px 8px 28px; display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow-float); transition: all 0.3s ease; }
+.rec-search-wrap:focus-within { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-glow), var(--shadow-float); }
+.rec-search-input { flex: 1; border: none; outline: none; font-family: var(--font-body); font-size: 16px; background: transparent; }
+.rec-search-btn { background: var(--accent); color: white; font-family: var(--font-body); font-size: 15px; font-weight: 500; padding: 14px 32px; border-radius: 100px; border: none; cursor: pointer; transition: all 0.3s; }
+.modular-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: minmax(220px, auto); gap: 24px; }
+.m-card { background: white; border: 1px solid var(--border); border-radius: var(--r-md); padding: 28px; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); display: flex; flex-direction: column; box-shadow: var(--shadow-card); }
+.m-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-float); border-color: var(--accent-light); }
+.m-card.span22 { grid-column: span 2; grid-row: span 2; }
+.m-card.span12 { grid-column: span 1; grid-row: span 2; }
+.m-card.span21 { grid-column: span 2; grid-row: span 1; }
+.m-card.span11 { grid-column: span 1; grid-row: span 1; }
+.m-card.featured { background: linear-gradient(145deg, #ffffff, #fdf5fd); border-color: var(--accent-light); }
+
+.cand-name { font-family: var(--font-display); font-size: 26px; font-weight: 700; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 4px; }
+.cand-role { font-size: 14px; color: var(--accent); font-weight: 500; margin-bottom: 6px; }
+.cand-loc { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+.cand-bio { font-size: 14.5px; color: var(--muted); line-height: 1.6; margin-bottom: 24px; white-space: pre-wrap; }
+.skill-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+.skill-chip { background: white; border: 1px solid var(--border-strong); color: var(--ink-2); font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 16px; }
+.top-match-tag { background: var(--ink); color: white; font-size: 12px; font-weight: 600; padding: 6px 16px; border-radius: 100px; align-self: flex-start; margin-bottom: 20px; }
+.cand-avatar { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 18px; font-weight: 700; color: white; margin-bottom: 14px; flex-shrink: 0; }
+.btn-contact { margin-top: auto; background: transparent; border: 1px solid var(--border-strong); color: var(--ink); font-family: var(--font-body); font-size: 13px; font-weight: 600; padding: 10px; border-radius: 8px; cursor: pointer; transition: all 0.2s; width: 100%; }
+.btn-contact:hover { background: var(--accent-light); color: var(--accent); border-color: var(--accent-light); }
+
+/* Success Toast */
+.success-toast { position: fixed; bottom: 32px; right: 32px; z-index: 999; background: var(--ink); color: white; padding: 18px 28px; border-radius: 12px; box-shadow: var(--shadow-float); display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 500; transform: translateY(100px); opacity: 0; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+.success-toast.show { transform: translateY(0); opacity: 1; }
+
+@media (max-width: 1024px) {
+  .cand-layout { grid-template-columns: 1fr; }
+  .feed-col { position: relative; top: auto; height: 500px; }
+  .form-col { height: auto; overflow: visible; }
+  .modular-grid { grid-template-columns: repeat(2, 1fr); }
+  .m-card.span22, .m-card.span21 { grid-column: span 2; }
+  .m-card.span12 { grid-column: span 1; }
+}
+@media (max-width: 720px) {
+  .modular-grid { grid-template-columns: 1fr; }
+  .m-card.span22, .m-card.span21, .m-card.span12, .m-card.span11 { grid-column: span 1; grid-row: auto; }
+  .form-row.cols-2 { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-brand" onclick="go('candidate')">
+    hire95<span class="nav-brand-dot"></span>
+  </div>
+  <div class="nav-center">
+    <button class="nav-pill active" id="np-candidate" onclick="go('candidate')">Candidate Platform</button>
+    <button class="nav-pill" id="np-recruiter" onclick="go('recruiter')">Recruiter Search</button>
+  </div>
+</nav>
+
+<!-- CANDIDATE PAGE -->
+<div id="pg-candidate" class="page active">
+  <div class="cand-page">
+    <div class="cand-header">
+      <h2>Candidate Dashboard</h2>
+      <p>Browse live opportunities or build your universal profile to enter the Data Bank.</p>
+    </div>
+    <div class="cand-layout">
+
+      <!-- Dynamic Jobs Feed -->
+      <div class="feed-col">
+        <div class="feed-topbar">
+          <span class="feed-topbar-title">Live Opportunities <span class="live-badge">Live</span></span>
+        </div>
+        <div class="feed-list" id="job-feed">
+          <div style="text-align:center; padding: 40px 20px; color: var(--muted); font-size: 14px;">
+            Fetching jobs from Data Bank...
+          </div>
+        </div>
+      </div>
+
+      <!-- General Data Profile Form -->
+      <div class="form-col">
+        <div class="form-topbar"></div>
+        <div class="form-inner">
+          <h2>Build Your Data Profile</h2>
+          <p class="form-sub">Fill out your details below. This profile is structured perfectly for recruiters across any industry (HR, Sales, Tech, Design, etc).</p>
+          <span class="profile-badge">✦ Structured Data Profiles — Modern Hiring Standard</span>
+
+          <form onsubmit="submitForm(event)">
+            <div class="form-row cols-2">
+              <div class="field">
+                <label>Full Legal Name</label>
+                <input type="text" id="cand-name" placeholder="e.g. Masood Ahmed" required>
+              </div>
+              <div class="field">
+                <label>Primary Email</label>
+                <input type="email" id="cand-email" placeholder="hello@example.com" required>
+              </div>
+            </div>
+            <div class="form-row cols-2">
+              <div class="field">
+                <label>Professional Title</label>
+                <input type="text" id="cand-title" placeholder="e.g. HR Executive, Designer, Sales Manager" required>
+              </div>
+              <div class="field">
+                <label>Current Location</label>
+                <input type="text" id="cand-loc" placeholder="e.g. Sheikhupura, Pakistan" required>
+              </div>
+            </div>
+            <div class="form-row cols-2">
+              <div class="field">
+                <label>Total Experience (Years)</label>
+                <input type="number" id="cand-exp" placeholder="3" min="0" max="40" required>
+              </div>
+              <div class="field">
+                <label>Core Skills (comma separated)</label>
+                <input type="text" id="cand-skills" placeholder="e.g. Recruitment, B2B Sales, Figma, Excel" required>
+              </div>
+            </div>
+
+            <div style="margin-bottom:24px;">
+              <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);margin-bottom:12px;">Availability</div>
+              <div class="availability-row" id="avail-row">
+                <button type="button" class="avail-btn selected" onclick="toggleAvail(this)">Full-Time</button>
+                <button type="button" class="avail-btn" onclick="toggleAvail(this)">Part-Time</button>
+                <button type="button" class="avail-btn" onclick="toggleAvail(this)">Remote Only</button>
+                <button type="button" class="avail-btn" onclick="toggleAvail(this)">Open to Relocation</button>
+                <button type="button" class="avail-btn" onclick="toggleAvail(this)">Freelance</button>
+              </div>
+            </div>
+
+            <!-- Dynamic Experience Container -->
+            <div class="field" style="margin-bottom: 24px;">
+              <label>Work Experience</label>
+              <div id="exp-container">
+                <div class="exp-block">
+                  <input type="text" class="e-company" placeholder="Company Name (e.g. IPAK)" required>
+                  <input type="text" class="e-role" placeholder="Job Role / Title" required>
+                  <input type="text" class="e-duration" placeholder="Duration (e.g. 2021 - 2023)" required>
+                  <textarea class="e-desc" rows="3" placeholder="Key responsibilities and achievements..." required></textarea>
+                </div>
+              </div>
+              <button type="button" class="btn-outline" onclick="addExpBlock()">+ Add Another Company</button>
+            </div>
+
+            <div class="form-row cols-1">
+              <div class="field">
+                <label>Professional Summary</label>
+                <textarea id="cand-summary" rows="3" placeholder="A brief elevator pitch about who you are and what unique value you bring..." required></textarea>
+              </div>
+            </div>
+            <div class="form-row cols-2">
+              <div class="field">
+                <label>LinkedIn URL (Optional)</label>
+                <input type="url" id="cand-linkedin" placeholder="https://linkedin.com/in/username">
+              </div>
+              <div class="field">
+                <label>Portfolio / Personal Link (Optional)</label>
+                <input type="url" id="cand-portfolio" placeholder="https://yourwebsite.com">
+              </div>
+            </div>
+
+            <button type="submit" class="form-submit">Save Profile to Data Bank →</button>
+            <p style="font-size: 13px; color: var(--muted-2); text-align: center; margin-top: 16px;">Your profile is encrypted and visible to verified hire95 recruiters.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RECRUITER PAGE -->
+<div id="pg-recruiter" class="page">
+  <div class="rec-page">
+    <div class="rec-hero">
+      <div style="display:inline-block; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent); margin-bottom:20px;">Recruiter Access</div>
+      <h2>Find <em>exactly</em> who<br>you're looking for.</h2>
+      <p>Query our universal structured talent pool. Real professionals, standardized data.</p>
+    </div>
+
+    <div class="rec-search-wrap">
+      <input type="text" class="rec-search-input" placeholder="Search by role, skill, or location — e.g. 'Sales in Punjab'" id="rec-q">
+      <button class="rec-search-btn" onclick="searchCandidates()">Search Bank →</button>
+    </div>
+
+    <div class="modular-grid" id="rec-grid">
+      <!-- Dynamic Google Sheets Candidates will load here -->
+    </div>
+  </div>
+</div>
+
+<div class="success-toast" id="toast">
+  <span class="toast-icon">✅</span>
+  <span id="toast-msg">Action completed.</span>
+</div>
+
+<script>
+// ==========================================
+// GOOGLE APPS SCRIPT WEB APP URL
+// ==========================================
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz7-xvYOY55kIYrHWOALqrXE9JPsi_HpZEJOIJcOow0Cb7iLJ5Lxooe-_msT-uQVese/exec';
+
+// Navigation
+function go(section) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-pill').forEach(p => p.classList.remove('active'));
+  document.getElementById('pg-' + section).classList.add('active');
+  document.getElementById('np-' + section).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  
+  if(section === 'recruiter') searchCandidates();
+}
+
+window.addEventListener('scroll', () => { document.getElementById('navbar').classList.toggle('compact', window.scrollY > 60); });
+
+let toastTimer;
+function toast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+function toggleAvail(btn) {
+  document.querySelectorAll('.avail-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+
+// Dynamic Experience Logic
+function addExpBlock() {
+  const container = document.getElementById('exp-container');
+  const block = document.createElement('div');
+  block.className = 'exp-block';
+  block.innerHTML = `
+    <button type="button" class="exp-remove" onclick="this.parentElement.remove()">Remove</button>
+    <input type="text" class="e-company" placeholder="Company Name (e.g. IPAK)" required>
+    <input type="text" class="e-role" placeholder="Job Role / Title" required>
+    <input type="text" class="e-duration" placeholder="Duration (e.g. 2021 - 2023)" required>
+    <textarea class="e-desc" rows="3" placeholder="Key responsibilities and achievements..." required></textarea>
+  `;
+  container.appendChild(block);
+}
+
+// 1. Submit Data to Google Sheets
+async function submitForm(e) {
+  e.preventDefault();
+  
+  const submitBtn = e.target.querySelector('.form-submit');
+  submitBtn.textContent = "Saving to Bank...";
+  submitBtn.disabled = true;
+
+  const activeAvail = document.querySelector('.avail-btn.selected').innerText;
+  
+  // Format all experience blocks into a readable string
+  let expString = "";
+  document.querySelectorAll('.exp-block').forEach(block => {
+    let comp = block.querySelector('.e-company').value;
+    let role = block.querySelector('.e-role').value;
+    let dur = block.querySelector('.e-duration').value;
+    let desc = block.querySelector('.e-desc').value;
+    expString += `• ${role} @ ${comp} (${dur})\n  ${desc}\n\n`;
+  });
+
+  const payload = {
+    name: document.getElementById('cand-name').value,
+    email: document.getElementById('cand-email').value,
+    title: document.getElementById('cand-title').value,
+    location: document.getElementById('cand-loc').value,
+    experience: document.getElementById('cand-exp').value,
+    skills: document.getElementById('cand-skills').value,
+    availability: activeAvail,
+    expDetail: expString.trim(),
+    summary: document.getElementById('cand-summary').value,
+    linkedin: document.getElementById('cand-linkedin').value,
+    portfolio: document.getElementById('cand-portfolio').value
+  };
+
+  try {
+    await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
+    toast('🎉 Profile saved to Data Bank!');
+    e.target.reset();
+    
+    document.getElementById('exp-container').innerHTML = `
+      <div class="exp-block">
+        <input type="text" class="e-company" placeholder="Company Name (e.g. IPAK)" required>
+        <input type="text" class="e-role" placeholder="Job Role / Title" required>
+        <input type="text" class="e-duration" placeholder="Duration (e.g. 2021 - 2023)" required>
+        <textarea class="e-desc" rows="3" placeholder="Key responsibilities and achievements..." required></textarea>
+      </div>`;
+      
+  } catch (error) {
+    toast('❌ Error saving profile.');
+  } finally {
+    submitBtn.textContent = "Save Profile to Data Bank →";
+    submitBtn.disabled = false;
+  }
+}
+
+// 2. Fetch Jobs for Left Column
+async function loadJobs() {
+  const feed = document.getElementById('job-feed');
+  try {
+    const response = await fetch(SCRIPT_URL + "?action=jobs");
+    const jobs = await response.json();
+
+    if(jobs.length === 0) {
+      feed.innerHTML = '<div style="text-align:center; padding:40px 20px; color:var(--muted); font-size:14px;">No live opportunities posted yet. Add some in the Jobs tab!</div>';
+      return;
+    }
+
+    feed.innerHTML = '';
+    jobs.forEach(job => {
+      const tagsArray = job.Tags ? String(job.Tags).split(',') : [];
+      const tagsHTML = tagsArray.map(t => `<span class="jmeta-tag">${t.trim()}</span>`).join('');
+      
+      feed.insertAdjacentHTML('beforeend', `
+        <div class="jcard">
+          <div class="jcard-top">
+            <div><div class="jcard-role">${job.Role || 'Position'}</div><div class="jcard-company">${job.Company || 'Company'}</div></div>
+            <span class="jcard-salary">${job.Salary || 'Competitive'}</span>
+          </div>
+          <div class="jcard-meta">${tagsHTML}</div>
+          <button class="jcard-apply" onclick="toast('Applied to ${job.Company}!')">⚡ 1-Click Apply</button>
+        </div>
+      `);
+    });
+  } catch(e) {
+    feed.innerHTML = '<div style="text-align:center; padding:40px; color:var(--coral); font-size:14px;">Error connecting to Sheet.</div>';
+  }
+}
+
+// 3. Fetch Candidates for Recruiter Page
+async function searchCandidates() {
+  const q = document.getElementById('rec-q').value.trim().toLowerCase();
+  const grid = document.getElementById('rec-grid');
+  grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--muted);">Fetching professionals from Data Bank...</div>';
+
+  try {
+    const response = await fetch(SCRIPT_URL + "?action=candidates");
+    let candidates = await response.json();
+
+    if (q) {
+      candidates = candidates.filter(c => 
+        (c.Name && String(c.Name).toLowerCase().includes(q)) || 
+        (c.Title && String(c.Title).toLowerCase().includes(q)) ||
+        (c.Skills && String(c.Skills).toLowerCase().includes(q)) ||
+        (c.Location && String(c.Location).toLowerCase().includes(q))
+      );
+    }
+
+    if (candidates.length === 0) {
+      grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--muted);">No matching profiles found for "${q}".</div>`;
+      return;
+    }
+
+    grid.innerHTML = ''; 
+    
+    candidates.forEach((cand, index) => {
+      const skillsArray = cand.Skills ? String(cand.Skills).split(',').slice(0, 4) : [];
+      const skillsHTML = skillsArray.map(skill => `<span class="skill-chip">${skill.trim()}</span>`).join('');
+      const initials = cand.Name ? String(cand.Name).split(' ').map(n => n[0]).join('').substring(0,2).toUpperCase() : '??';
+      
+      const cardClasses = ['span12', 'span22 featured', 'span21', 'span11'];
+      const cardClass = cardClasses[index % cardClasses.length];
+      const colors = ['#4f46e5', '#0ea5e9', '#e11d48', '#475569', 'var(--accent)'];
+      const color = colors[index % colors.length];
+
+      grid.insertAdjacentHTML('beforeend', `
+        <div class="m-card ${cardClass}">
+          ${cardClass.includes('featured') ? '<div class="top-match-tag">Top Match</div>' : ''}
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+            <div>
+              ${!cardClass.includes('featured') ? `<div class="cand-avatar" style="background:${color}">${initials}</div>` : ''}
+              <div class="cand-name" style="${!cardClass.includes('featured') ? 'font-size:22px;' : ''}">${cand.Name || 'Anonymous'}</div>
+              <div class="cand-role" style="${!cardClass.includes('featured') ? 'color:var(--ink-2);' : ''}">${cand.Title || 'Professional'}</div>
+              <div class="cand-loc">📍 ${cand.Location || 'Remote'}</div>
+            </div>
+            ${cardClass.includes('featured') ? `<div style="background:var(--ink);color:white;font-size:12px;font-weight:600;padding:6px 14px;border-radius:100px;">${cand.Experience || '0'} Yrs Exp</div>` : ''}
+          </div>
+          <p class="cand-bio" style="${!cardClass.includes('featured') ? 'font-size:14px; margin-top:12px;' : ''}">${cand.Summary || 'No summary provided.'}</p>
+          
+          <div style="margin-top:12px; margin-bottom:16px; font-size:13px; color:var(--ink-2); display:${cardClass.includes('featured') ? 'block' : 'none'};">
+            <strong>Experience History:</strong><br>${cand.ExpDetail ? cand.ExpDetail.replace(/\n/g, '<br>') : 'N/A'}
+          </div>
+
+          <div class="skill-chips" style="${!cardClass.includes('featured') ? 'margin-top:auto; margin-bottom:20px;' : 'margin-bottom:24px;'}">
+            ${skillsHTML}
+          </div>
+          <button class="btn-contact" style="${cardClass.includes('featured') ? 'background:var(--accent);border:none;color:white;font-weight:600;' : ''}" onclick="toast('Contact request sent to ${cand.Name ? String(cand.Name).split(' ')[0] : 'candidate'}!')">Contact via hire95 →</button>
+        </div>
+      `);
+    });
+
+  } catch (error) {
+    grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--coral);">Failed to load profiles. Check your Apps Script URL.</div>';
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if(e.key === 'Enter' && document.getElementById('rec-q') === document.activeElement) searchCandidates();
+});
+
+// Load Jobs Feed on Startup
+window.onload = loadJobs;
+
+</script>
+</body>
+</html>
