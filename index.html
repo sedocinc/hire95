@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>hire95 — Talent Data Bank</title>
+<title>hire95 — The Modern Talent Data Bank</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,29 +20,25 @@
   --surface: #ffffff;
   --bg: #fafafa;
   --bg-warm: #f3f4f6;
-  --accent: #92278f;
+  --accent: #9B2B9A; /* Matched to logo */
   --accent-dark: #7a1f78;
   --accent-light: #fdf5fd;
-  --accent-glow: rgba(146, 39, 143, 0.15);
-  --purple: #92278f;
-  --purple-light: #fdf5fd;
-  --teal: #10b981;
-  --coral: #ef4444;
+  --accent-glow: rgba(155, 43, 154, 0.15);
   --border: #e5e7eb;
   --border-strong: #d1d5db;
   --r-sm: 12px;
-  --r-md: 20px;
+  --r-md: 24px;
   --r-lg: 32px;
   --r-xl: 48px;
   --font-display: 'Outfit', sans-serif;
   --font-body: 'Inter', sans-serif;
-  --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-  --shadow-float: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-  --shadow-accent: 0 8px 24px rgba(146, 39, 143, 0.25);
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.02);
+  --shadow-card: 0 8px 16px -4px rgba(0, 0, 0, 0.04);
+  --shadow-float: 0 20px 24px -8px rgba(0, 0, 0, 0.08);
+  --shadow-accent: 0 8px 24px rgba(155, 43, 154, 0.25);
 }
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
 html { scroll-behavior: smooth; }
 
 body {
@@ -51,1242 +47,286 @@ body {
   color: var(--ink);
   min-height: 100vh;
   overflow-x: hidden;
-  cursor: default;
   /* Clean SaaS Dotted Background */
   background-image: radial-gradient(var(--border) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--muted-2); border-radius: 10px; }
+a { text-decoration: none; color: inherit; }
 
 /* ── NAVBAR ── */
 .navbar {
-  position: sticky; top: 0; z-index: 100;
-  padding: 18px 5%;
+  position: fixed; top: 0; width: 100%; z-index: 100;
+  padding: 20px 5%;
   display: flex; justify-content: space-between; align-items: center;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(16px);
+  background: rgba(250, 250, 250, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid transparent;
+  transition: all 0.4s ease;
+}
+.navbar.scrolled {
+  padding: 14px 5%;
+  background: rgba(255, 255, 255, 0.95);
   border-bottom: 1px solid var(--border);
-  transition: padding 0.4s ease;
+  box-shadow: var(--shadow-sm);
 }
-.navbar.compact { padding: 12px 5%; box-shadow: var(--shadow-card); }
 
-.nav-brand {
-  font-family: var(--font-display);
-  font-size: 24px; font-weight: 800;
-  color: var(--ink); letter-spacing: -0.02em;
-  cursor: pointer;
-  display: flex; align-items: center; gap: 8px;
+.nav-brand img {
+  height: 38px; /* Adjusted for the hire95 logo */
+  width: auto;
+  display: block;
+  transition: transform 0.3s ease;
 }
-.nav-brand-dot {
-  width: 8px; height: 8px;
-  background: var(--accent); border-radius: 50%;
-  box-shadow: 0 0 12px var(--accent-glow);
-  animation: breathe 3s ease-in-out infinite;
-}
-@keyframes breathe {
-  0%,100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(0.8); }
-}
+.nav-brand:hover img { transform: scale(1.02); }
 
 .nav-center {
-  display: flex; gap: 4px;
+  display: flex; gap: 8px;
   background: white;
-  padding: 6px 18px;
+  padding: 6px 8px;
   border-radius: 100px;
   border: 1px solid var(--border);
-  box-shadow: var(--shadow-card);
+  box-shadow: var(--shadow-sm);
 }
-.nav-pill {
-  font-family: var(--font-body);
-  font-size: 14px; font-weight: 500;
-  color: var(--muted);
-  background: transparent; border: none;
-  padding: 8px 16px; border-radius: 100px;
-  cursor: pointer;
-  transition: all 0.25s ease;
+.nav-link {
+  font-size: 14px; font-weight: 500; color: var(--muted);
+  padding: 8px 20px; border-radius: 100px; transition: all 0.25s ease;
 }
-.nav-pill:hover { color: var(--ink); }
-.nav-pill.active {
-  background: var(--bg); color: var(--ink); font-weight: 600;
-}
+.nav-link:hover { color: var(--ink); background: var(--bg-warm); }
 
-.nav-cta {
+.nav-actions { display: flex; gap: 12px; align-items: center; }
+.btn-login { font-size: 14px; font-weight: 600; color: var(--ink); padding: 10px 16px; }
+.btn-login:hover { color: var(--accent); }
+.btn-cta {
   background: var(--ink); color: white;
-  font-family: var(--font-body); font-size: 14px; font-weight: 500;
-  padding: 12px 28px; border-radius: 100px; border: none;
-  cursor: pointer;
+  font-size: 14px; font-weight: 600;
+  padding: 12px 28px; border-radius: 100px;
   transition: all 0.3s ease;
 }
-.nav-cta:hover {
-  background: var(--accent);
-  box-shadow: var(--shadow-accent);
-  transform: translateY(-2px);
-}
+.btn-cta:hover { background: var(--accent); box-shadow: var(--shadow-accent); transform: translateY(-2px); }
 
-/* ── CONTAINER ── */
-.wrap { max-width: 1300px; margin: 0 auto; padding: 0 5%; }
-
-/* ── PAGE SECTIONS ── */
-.page { display: none; animation: pageIn 0.6s cubic-bezier(0.16,1,0.3,1) forwards; }
-.page.active { display: block; }
-@keyframes pageIn {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ─────────────────────────────────────────
-   LANDING PAGE
-───────────────────────────────────────── */
+/* ── HERO SECTION (CENTERED, ONE-VIEW) ── */
 .hero {
-  padding: 80px 5% 40px;
-  max-width: 1300px; margin: 0 auto;
-  position: relative; z-index: 1;
+  padding: 180px 5% 100px;
+  max-width: 1000px; margin: 0 auto;
+  text-align: center;
+  display: flex; flex-direction: column; align-items: center;
 }
-
-.hero-eyebrow {
+.hero-badge {
   display: inline-flex; align-items: center; gap: 8px;
   background: white; border: 1px solid var(--border);
-  padding: 7px 16px 7px 10px; border-radius: 100px;
-  font-size: 13px; font-weight: 500; color: var(--ink-2);
-  margin-bottom: 36px;
-  box-shadow: var(--shadow-card);
+  padding: 6px 16px 6px 8px; border-radius: 100px;
+  font-size: 13px; font-weight: 600; color: var(--ink-2);
+  margin-bottom: 32px; box-shadow: var(--shadow-sm);
+  animation: fadeDown 0.8s cubic-bezier(0.16,1,0.3,1);
 }
-.hero-eyebrow-badge {
-  background: var(--accent-light); color: var(--accent);
-  font-size: 11px; font-weight: 700;
-  padding: 3px 10px; border-radius: 100px;
-  letter-spacing: 0.02em;
-}
+.badge-dot { background: var(--accent-light); color: var(--accent); padding: 2px 10px; border-radius: 100px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; }
 
-.hero-title {
+.hero h1 {
   font-family: var(--font-display);
-  font-size: clamp(52px, 7.5vw, 88px);
-  font-weight: 800;
-  line-height: 1.05;
-  letter-spacing: -0.03em;
-  color: var(--ink);
-  margin-bottom: 32px;
-  max-width: 900px;
+  font-size: clamp(48px, 8vw, 84px);
+  font-weight: 800; line-height: 1.05; letter-spacing: -0.03em;
+  color: var(--ink); margin-bottom: 24px;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.1s both;
 }
-.hero-title .line-accent {
-  background: linear-gradient(to right, var(--accent), #ff5e62);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.hero-title .line-tag {
-  display: inline-block;
-  background: var(--accent);
-  color: white;
-  padding: 2px 18px 6px;
-  border-radius: var(--r-sm);
-  transform: rotate(-1.5deg);
-  margin-left: 8px;
+.hero h1 span { color: var(--accent); }
+
+.hero p {
+  font-size: 20px; line-height: 1.6; color: var(--muted);
+  max-width: 600px; margin: 0 auto 40px;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.2s both;
 }
 
-.hero-body-row {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 60px; align-items: end;
-  padding-bottom: 64px;
+.hero-buttons {
+  display: flex; gap: 16px; justify-content: center;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.3s both;
 }
-
-.hero-desc {
-  font-size: 18px; line-height: 1.7;
-  color: var(--muted); max-width: 480px;
-  margin-bottom: 40px;
-}
-
-.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
-
-.btn-hero-primary {
+.btn-primary {
   background: var(--accent); color: white;
-  font-family: var(--font-body); font-size: 16px; font-weight: 500;
-  padding: 18px 40px; border-radius: 100px; border: none;
-  cursor: pointer; transition: all 0.3s ease;
-}
-.btn-hero-primary:hover {
-  background: var(--ink);
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-float);
-}
-
-.btn-hero-ghost {
-  background: white; color: var(--ink);
-  font-family: var(--font-body); font-size: 16px; font-weight: 500;
+  font-size: 16px; font-weight: 600;
   padding: 18px 40px; border-radius: 100px;
-  border: 1px solid var(--border-strong);
-  cursor: pointer; transition: all 0.3s ease;
+  transition: all 0.3s ease; box-shadow: var(--shadow-accent);
 }
-.btn-hero-ghost:hover { background: var(--bg-warm); transform: translateY(-3px); box-shadow: var(--shadow-card); }
+.btn-primary:hover { transform: translateY(-3px); background: var(--accent-dark); }
+.btn-secondary {
+  background: white; color: var(--ink); border: 1px solid var(--border-strong);
+  font-size: 16px; font-weight: 600;
+  padding: 18px 40px; border-radius: 100px;
+  transition: all 0.3s ease; box-shadow: var(--shadow-sm);
+}
+.btn-secondary:hover { background: var(--bg-warm); border-color: var(--ink-3); }
 
-/* Hero visual (right side) */
-.hero-visual-area { position: relative; }
-
-.hero-stat-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+/* ── BENTO BOX GRID ── */
+.bento-section {
+  max-width: 1200px; margin: 0 auto 120px; padding: 0 5%;
 }
-
-.hero-stat-card {
-  background: white; border-radius: var(--r-md);
-  border: 1px solid var(--border);
-  padding: 28px;
-  box-shadow: var(--shadow-card);
-  transition: transform 0.3s ease;
-  position: relative; overflow: hidden;
-}
-.hero-stat-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-float); border-color: var(--accent-light); }
-.hero-stat-card.accent-card {
-  background: var(--ink); color: white; border: none;
-}
-.hero-stat-card.purple-card { background: var(--accent-light); border: 1px solid var(--accent-light); }
-.hero-stat-card.wide { grid-column: span 2; }
-
-.stat-num {
-  font-family: var(--font-display);
-  font-size: 42px; font-weight: 700;
-  letter-spacing: -0.02em; line-height: 1;
-  color: var(--ink); margin-bottom: 8px;
-}
-.accent-card .stat-num { color: white; }
-.stat-label { font-size: 14px; color: var(--muted); font-weight: 500; }
-.accent-card .stat-label { color: rgba(255,255,255,0.7); }
-.purple-card .stat-label { color: var(--accent); }
-
-.floating-tag {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: white; border: 1px solid var(--border);
-  padding: 8px 14px; border-radius: 100px;
-  font-size: 12px; font-weight: 500; color: var(--ink-2);
-  box-shadow: var(--shadow-card);
-}
-.tag-dot { width: 8px; height: 8px; border-radius: 50%; }
-.tag-dot.green { background: var(--teal); }
-.tag-dot.purple { background: var(--accent); }
-
-/* Ticker */
-.ticker-row {
-  padding: 20px 5%;
-  overflow: hidden;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  background: white; margin-bottom: 64px;
-  position: relative; z-index: 1;
-}
-.ticker-inner {
-  display: flex; gap: 48px;
-  animation: ticker 28s linear infinite;
-  white-space: nowrap;
-}
-.ticker-inner:hover { animation-play-state: paused; }
-@keyframes ticker {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-.ticker-item {
-  font-family: var(--font-display);
-  font-size: 14px; font-weight: 600;
-  color: var(--muted-2); text-transform: uppercase;
-  letter-spacing: 0.05em; display: flex; align-items: center; gap: 12px;
-}
-.ticker-sep { color: var(--accent); font-size: 18px; }
-
-/* Features */
-.features-section { padding: 0 5% 80px; max-width: 1300px; margin: 0 auto; position: relative; z-index: 1; }
-.section-label {
-  display: inline-block;
-  font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;
-  color: var(--accent); margin-bottom: 20px;
-}
-.section-title {
-  font-family: var(--font-display);
-  font-size: clamp(32px, 4vw, 48px);
-  font-weight: 700; letter-spacing: -0.02em;
-  line-height: 1.1; color: var(--ink);
-  margin-bottom: 60px;
-}
-.section-title span { color: var(--accent); }
-
-.feat-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
-}
-.feat-card {
-  background: white; border: 1px solid var(--border);
-  border-radius: var(--r-md); padding: 40px 32px;
-  box-shadow: var(--shadow-card);
-  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
-  position: relative; overflow: hidden;
-}
-.feat-card::before {
-  content: ''; position: absolute; bottom: 0; left: 0;
-  width: 100%; height: 3px;
-  background: transparent;
-  transition: background 0.3s;
-}
-.feat-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-float); }
-.feat-card:hover::before { background: var(--accent); }
-
-.feat-icon {
-  width: 50px; height: 50px;
-  background: var(--accent-light); color: var(--accent);
-  border-radius: 14px; border: 1px solid rgba(146,39,143,0.1);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 24px; margin-bottom: 24px; font-weight: bold;
-}
-.feat-card h3 {
-  font-family: var(--font-display);
-  font-size: 22px; font-weight: 600;
-  letter-spacing: -0.01em; margin-bottom: 12px;
-}
-.feat-card p { font-size: 15px; color: var(--muted); line-height: 1.6; }
-
-/* Marquee strip */
-.roles-strip {
-  padding: 28px 5%;
-  background: var(--ink);
-  overflow: hidden; position: relative;
-  margin-bottom: 80px;
-}
-.roles-inner {
-  display: flex; gap: 40px;
-  animation: ticker 22s linear infinite;
-}
-.role-chip {
-  background: var(--ink-2); color: white;
-  font-size: 14px; font-weight: 500;
-  padding: 8px 18px; border-radius: 100px;
-  white-space: nowrap; border: 1px solid rgba(255,255,255,0.1);
-}
-.role-chip.accent { background: var(--accent); color: white; border: none; }
-
-/* Process section */
-.process-section { padding: 0 5% 80px; max-width: 1300px; margin: 0 auto; position: relative; z-index: 1; }
-.process-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  gap: 0; position: relative;
-}
-.process-grid::before {
-  content: '';
-  position: absolute; top: 36px; left: 10%; right: 10%;
-  height: 1px; background: var(--border-strong);
-  z-index: 0;
-}
-.process-step { text-align: center; padding: 20px 24px; position: relative; z-index: 1; }
-.step-circle {
-  width: 72px; height: 72px; border-radius: 50%;
-  background: white; border: 2px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 24px; font-size: 24px;
-  box-shadow: var(--shadow-card);
-  transition: all 0.3s ease;
-}
-.process-step:hover .step-circle {
-  background: var(--accent-light); border-color: var(--accent); color: var(--accent);
-  transform: scale(1.1);
-}
-.process-step h4 {
-  font-family: var(--font-display);
-  font-size: 18px; font-weight: 600; margin-bottom: 8px;
-}
-.process-step p { font-size: 14px; color: var(--muted); line-height: 1.6; }
-
-/* CTA Banner */
-.cta-banner {
-  margin: 0 5% 80px;
-  background: var(--ink); border-radius: var(--r-xl);
-  padding: 80px;
-  display: grid; grid-template-columns: 1fr auto;
-  align-items: center; gap: 40px;
-  position: relative; overflow: hidden;
-  z-index: 1;
-}
-.cta-banner::before {
-  content: '';
-  position: absolute; top: -60px; right: -60px;
-  width: 300px; height: 300px;
-  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-  border-radius: 50%;
-}
-.cta-text h2 {
-  font-family: var(--font-display);
-  font-size: clamp(32px, 4vw, 48px);
-  font-weight: 700; color: white;
-  letter-spacing: -0.02em; margin-bottom: 16px; position: relative; z-index: 1;
-}
-.cta-text p { font-size: 18px; color: #d1d5db; position: relative; z-index: 1; max-width: 500px; }
-.cta-actions { display: flex; gap: 16px; position: relative; z-index: 1; }
-
-.btn-cta-accent {
-  background: var(--accent); color: white;
-  font-family: var(--font-body); font-size: 16px; font-weight: 500;
-  padding: 16px 36px; border-radius: 100px; border: none;
-  cursor: pointer; transition: all 0.3s ease;
-  white-space: nowrap;
-}
-.btn-cta-accent:hover { transform: translateY(-3px); box-shadow: var(--shadow-accent); background: #a631a3; }
-.btn-cta-ghost-white {
-  background: rgba(255,255,255,0.1); color: white;
-  font-family: var(--font-body); font-size: 16px; font-weight: 500;
-  padding: 16px 36px; border-radius: 100px;
-  border: 1px solid rgba(255,255,255,0.2);
-  cursor: pointer; transition: all 0.3s ease; white-space: nowrap;
-}
-.btn-cta-ghost-white:hover { background: rgba(255,255,255,0.18); }
-
-
-/* ─────────────────────────────────────────
-   CANDIDATE DASHBOARD
-───────────────────────────────────────── */
-.cand-page { padding: 48px 5%; max-width: 1300px; margin: 0 auto; }
-.cand-header { margin-bottom: 40px; }
-.cand-header h2 {
-  font-family: var(--font-display);
-  font-size: 40px; font-weight: 700;
-  letter-spacing: -0.02em; margin-bottom: 12px;
-}
-.cand-header p { font-size: 16px; color: var(--muted); }
-
-.cand-layout {
-  display: grid; grid-template-columns: 0.8fr 1.2fr;
-  gap: 40px; align-items: start;
-}
-
-/* Feed */
-.feed-col {
-  background: white; border: 1px solid var(--border);
-  border-radius: var(--r-md); overflow: hidden;
-  box-shadow: var(--shadow-card); position: sticky; top: 90px;
-  height: 850px; display: flex; flex-direction: column;
-}
-.feed-topbar {
-  padding: 20px 24px;
-  border-bottom: 1px solid var(--border);
-  display: flex; justify-content: space-between; align-items: center;
-}
-.feed-topbar-title {
-  font-family: var(--font-display);
-  font-size: 18px; font-weight: 600;
-  display: flex; align-items: center; gap: 8px;
-}
-.live-badge {
-  background: #dcfce7; color: #16a34a;
-  font-size: 11px; font-weight: 600; letter-spacing: 0.05em;
-  text-transform: uppercase; padding: 4px 10px; border-radius: 100px;
-}
-.feed-count {
-  font-size: 12px; color: var(--muted);
-  background: var(--bg); padding: 4px 10px; border-radius: 100px;
-  border: 1px solid var(--border);
-}
-
-.feed-list { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
-
-.jcard {
-  background: var(--bg); border: 1px solid var(--border);
-  border-radius: var(--r-sm); padding: 20px;
-  cursor: pointer; transition: all 0.3s ease;
-  position: relative;
-}
-.jcard::after {
-  content: ''; position: absolute;
-  left: 0; top: 50%; transform: translateY(-50%);
-  width: 4px; height: 0;
-  background: var(--accent); border-radius: 0 4px 4px 0;
-  transition: height 0.3s ease;
-}
-.jcard:hover { background: white; border-color: var(--accent); transform: translateX(4px); box-shadow: var(--shadow-card); }
-.jcard:hover::after { height: 60%; }
-
-.jcard-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
-.jcard-role { font-family: var(--font-display); font-size: 16px; font-weight: 600; margin-bottom: 4px; color: var(--ink); }
-.jcard-company { font-size: 13px; color: var(--muted); }
-.jcard-salary {
-  background: #ecfdf5; color: #059669;
-  font-size: 12px; font-weight: 600;
-  padding: 4px 10px; border-radius: 100px;
-  white-space: nowrap;
-}
-.jcard-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
-.jmeta-tag {
-  background: white; color: var(--muted);
-  border: 1px solid var(--border);
-  font-size: 11px; font-weight: 500;
-  padding: 4px 10px; border-radius: 6px;
-}
-.jcard-apply {
-  width: 100%; background: transparent; color: var(--ink);
-  font-family: var(--font-body); font-size: 13px; font-weight: 600;
-  padding: 10px; border-radius: 8px; border: 1px solid var(--border-strong); cursor: pointer;
-  transition: all 0.2s;
-}
-.jcard-hover .btn-apply { background: var(--accent-light); border-color: var(--accent-light); color: var(--accent); }
-.jcard:hover .jcard-apply { background: var(--accent-light); color: var(--accent); border-color: var(--accent-light); }
-
-/* Form column */
-.form-col {
-  background: white; border: 1px solid var(--border);
-  border-radius: var(--r-md); overflow-y: auto;
-  box-shadow: var(--shadow-float); height: 850px; position: relative;
-}
-.form-topbar {
-  position: absolute; top: 0; left: 0; width: 100%; height: 6px;
-  background: linear-gradient(to right, var(--accent), #c337c0);
-}
-.form-inner { padding: 40px; margin-top: 6px; }
-.form-inner h2 {
-  font-family: var(--font-display);
-  font-size: 28px; font-weight: 700;
-  letter-spacing: -0.01em; margin-bottom: 8px;
-}
-.form-inner .form-sub { font-size: 14px; color: var(--muted); line-height: 1.5; margin-bottom: 24px; }
-.profile-badge {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: var(--accent-light); color: var(--accent);
-  font-size: 12px; font-weight: 600;
-  padding: 6px 14px; border-radius: 100px; margin-bottom: 32px; border: 1px solid rgba(146,39,143,0.1);
-}
-
-.form-row { display: grid; gap: 16px; margin-bottom: 20px; }
-.form-row.cols-2 { grid-template-columns: 1fr 1fr; }
-.form-row.cols-13 { grid-template-columns: 1fr 2fr; }
-.form-row.cols-1 { grid-template-columns: 1fr; }
-
-.field label {
-  display: block; font-size: 12px; font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.05em;
-  color: var(--muted); margin-bottom: 8px;
-}
-.field input, .field textarea, .field select {
-  width: 100%; background: var(--bg); border: 1px solid var(--border-strong);
-  border-radius: 10px; padding: 14px 16px;
-  font-size: 14px; font-family: var(--font-body);
-  color: var(--ink); outline: none;
-  transition: all 0.25s ease;
-  resize: vertical;
-}
-.field input:focus, .field textarea:focus, .field select:focus {
-  background: white; border-color: var(--accent);
-  box-shadow: 0 0 0 4px var(--accent-glow);
-}
-.field input::placeholder, .field textarea::placeholder { color: var(--muted-2); }
-
-.availability-row {
-  display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px;
-}
-.avail-btn {
-  background: var(--bg); border: 1px solid var(--border-strong);
-  color: var(--muted); font-family: var(--font-body);
-  font-size: 13px; font-weight: 500;
-  padding: 10px 18px; border-radius: 100px; cursor: pointer;
-  transition: all 0.2s;
-}
-.avail-btn.selected {
-  background: var(--accent-light); border-color: var(--accent);
-  color: var(--accent); font-weight: 600;
-}
-
-.form-submit {
-  width: 100%; background: var(--ink); color: white;
-  font-family: var(--font-body); font-size: 15px; font-weight: 600;
-  padding: 16px; border-radius: 10px; border: none; cursor: pointer;
-  transition: all 0.3s ease; margin-top: 12px;
-}
-.form-submit:hover { background: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow-float); }
-
-.form-footer-note { font-size: 13px; color: var(--muted-2); text-align: center; margin-top: 16px; }
-
-
-/* ─────────────────────────────────────────
-   RECRUITER PAGE
-───────────────────────────────────────── */
-.rec-page { padding: 48px 5%; max-width: 1300px; margin: 0 auto; }
-.rec-hero { text-align: center; margin-bottom: 48px; }
-.rec-hero h2 {
-  font-family: var(--font-display);
-  font-size: clamp(36px, 5vw, 48px); font-weight: 700;
-  letter-spacing: -0.02em; margin-bottom: 16px;
-}
-.rec-hero h2 em { font-style: normal; color: var(--accent); }
-.rec-hero p { font-size: 18px; color: var(--muted); max-width: 500px; margin: 0 auto 36px; }
-
-/* Search Bar */
-.rec-search-wrap {
-  max-width: 700px; margin: 0 auto 60px;
-  background: white; border: 1px solid var(--border-strong);
-  border-radius: 100px; padding: 8px 8px 8px 28px;
-  display: flex; align-items: center; gap: 12px;
-  box-shadow: var(--shadow-float);
-  transition: all 0.3s ease;
-}
-.rec-search-wrap:focus-within {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 4px var(--accent-glow), var(--shadow-float);
-}
-.rec-search-input {
-  flex: 1; border: none; outline: none;
-  font-family: var(--font-body); font-size: 16px;
-  background: transparent; color: var(--ink);
-}
-.rec-search-input::placeholder { color: var(--muted-2); }
-.rec-search-btn {
-  background: var(--accent); color: white;
-  font-family: var(--font-body); font-size: 15px; font-weight: 500;
-  padding: 14px 32px; border-radius: 100px; border: none; cursor: pointer;
-  transition: all 0.3s; white-space: nowrap;
-}
-.rec-search-btn:hover { background: var(--ink); }
-
-/* Filter chips */
-.filter-row { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 48px; }
-.filter-chip {
-  background: white; border: 1px solid var(--border-strong);
-  color: var(--muted); font-size: 13px; font-weight: 500;
-  padding: 8px 18px; border-radius: 100px; cursor: pointer;
-  transition: all 0.2s;
-}
-.filter-chip.on { background: var(--ink); color: white; border-color: var(--ink); }
-.filter-chip:hover:not(.on) { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
-
-/* Modular Grid (Asymmetrical Layout) */
-.modular-grid {
+.bento-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: minmax(220px, auto);
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 320px;
   gap: 24px;
 }
-.m-card {
+
+.bento-card {
   background: white; border: 1px solid var(--border);
-  border-radius: var(--r-md); padding: 28px;
+  border-radius: var(--r-md); padding: 40px;
+  box-shadow: var(--shadow-card);
   transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
   display: flex; flex-direction: column;
-  box-shadow: var(--shadow-card);
-  cursor: default;
+  position: relative; overflow: hidden;
 }
-.m-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-float); border-color: var(--accent-light); }
-
-/* Card random sizes */
-.m-card.span22 { grid-column: span 2; grid-row: span 2; }
-.m-card.span12 { grid-column: span 1; grid-row: span 2; }
-.m-card.span21 { grid-column: span 2; grid-row: span 1; }
-.m-card.span11 { grid-column: span 1; grid-row: span 1; }
-
-.m-card.featured { background: linear-gradient(145deg, #ffffff, #fdf5fd); border-color: var(--accent-light); }
-
-.cand-name {
-  font-family: var(--font-display);
-  font-size: 26px; font-weight: 700;
-  letter-spacing: -0.01em; color: var(--ink);
-  margin-bottom: 4px;
-}
-.cand-role { font-size: 14px; color: var(--accent); font-weight: 500; margin-bottom: 6px; }
-.cand-loc { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
-.cand-bio { font-size: 14.5px; color: var(--muted); line-height: 1.6; margin-bottom: 24px; }
-
-.skill-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
-.skill-chip {
-  background: white; border: 1px solid var(--border-strong);
-  color: var(--ink-2); font-size: 12px; font-weight: 600;
-  padding: 6px 14px; border-radius: 16px;
+.bento-card:hover {
+  transform: translateY(-8px); box-shadow: var(--shadow-float);
+  border-color: var(--accent-light);
 }
 
-.top-match-tag {
-  background: var(--ink); color: white;
-  font-size: 12px; font-weight: 600;
-  padding: 6px 16px; border-radius: 100px;
-  align-self: flex-start; margin-bottom: 20px;
+.bento-large { grid-column: span 2; }
+.bento-tall { grid-row: span 2; }
+
+.bento-card h3 { font-family: var(--font-display); font-size: 28px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 16px; z-index: 2; }
+.bento-card p { font-size: 16px; color: var(--muted); line-height: 1.6; z-index: 2; max-width: 400px; }
+
+/* Abstract Bento Visuals */
+.bento-visual-1 { position: absolute; right: -20px; bottom: -20px; width: 250px; height: 200px; background: var(--bg-warm); border-radius: 16px 0 0 0; border: 1px solid var(--border); padding: 20px; opacity: 0.8; }
+.b-line { height: 12px; background: var(--border-strong); border-radius: 10px; margin-bottom: 12px; }
+.b-line.w-half { width: 50%; } .b-line.w-full { width: 100%; } .b-line.accent { background: var(--accent-light); }
+
+.bento-icon { width: 64px; height: 64px; background: var(--accent-light); color: var(--accent); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 32px; margin-bottom: auto; border: 1px solid rgba(155,43,154,0.1); }
+
+.bento-dark { background: var(--ink); color: white; border: none; }
+.bento-dark h3 { color: white; }
+.bento-dark p { color: var(--muted-2); }
+.bento-dark .bento-icon { background: rgba(255,255,255,0.1); color: white; border: none; }
+
+/* ── CTA FOOTER ── */
+.bottom-cta {
+  max-width: 1200px; margin: 0 auto 80px; padding: 0 5%;
 }
-
-.cand-avatar {
-  width: 52px; height: 52px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-display); font-size: 18px; font-weight: 700;
-  color: white; margin-bottom: 14px; flex-shrink: 0;
+.cta-box {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+  border-radius: var(--r-xl); padding: 80px 5%;
+  text-align: center; color: white; position: relative; overflow: hidden;
 }
+.cta-box h2 { font-family: var(--font-display); font-size: 48px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 20px; }
+.cta-box p { font-size: 18px; color: rgba(255,255,255,0.8); margin-bottom: 40px; }
+.cta-box .btn-primary { background: white; color: var(--accent); box-shadow: var(--shadow-float); }
+.cta-box .btn-primary:hover { background: var(--bg); transform: scale(1.05); }
 
-.btn-contact {
-  margin-top: auto; background: transparent;
-  border: 1px solid var(--border-strong); color: var(--ink);
-  font-family: var(--font-body); font-size: 13px; font-weight: 600;
-  padding: 10px; border-radius: 8px; cursor: pointer;
-  transition: all 0.2s; width: 100%;
-}
-.btn-contact:hover { background: var(--accent-light); color: var(--accent); border-color: var(--accent-light); }
-
-.stat-mini {
-  font-family: var(--font-display);
-  font-size: 38px; font-weight: 700;
-  color: white; letter-spacing: -0.02em;
-  margin-bottom: 8px;
-}
-.stat-mini-label { font-size: 14px; color: rgba(255,255,255,0.8); }
-
-/* Small card types */
-.m-card-skill-display { background: var(--accent-light); border-color: rgba(146, 39, 143, 0.2); }
-.m-card-skill-display:hover { border-color: var(--accent); }
-.m-card-accent { background: var(--ink); border-color: transparent; }
-
-/* Footer */
 footer {
-  background: var(--ink); color: rgba(255,255,255,0.5);
-  text-align: center; padding: 32px;
-  font-size: 14px; position: relative; z-index: 1;
-  border-top: 1px solid var(--ink-2);
+  text-align: center; padding: 40px 5%; border-top: 1px solid var(--border);
+  color: var(--muted); font-size: 14px; background: white;
 }
-footer strong { color: white; }
 
-/* Success state */
-.success-toast {
-  position: fixed; bottom: 32px; right: 32px; z-index: 999;
-  background: var(--ink); color: white;
-  padding: 18px 28px; border-radius: 12px;
-  box-shadow: var(--shadow-float);
-  display: flex; align-items: center; gap: 12px;
-  font-size: 14px; font-weight: 500;
-  transform: translateY(100px); opacity: 0;
-  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
-}
-.success-toast.show { transform: translateY(0); opacity: 1; }
-.toast-icon { font-size: 22px; }
-
-/* Scroll fade-in */
-.reveal { opacity: 0; transform: translateY(32px); transition: all 0.7s cubic-bezier(0.16,1,0.3,1); }
-.reveal.in { opacity: 1; transform: translateY(0); }
+/* Animations */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
 
 /* Responsive */
 @media (max-width: 1024px) {
-  .feat-grid { grid-template-columns: 1fr 1fr; }
-  .cand-layout { grid-template-columns: 1fr; }
-  .feed-col { position: relative; top: auto; height: 500px; }
-  .form-col { height: auto; overflow: visible; }
-  .modular-grid { grid-template-columns: repeat(2, 1fr); }
-  .m-card.span22, .m-card.span21 { grid-column: span 2; }
-  .m-card.span12 { grid-column: span 1; }
-  .cta-banner { grid-template-columns: 1fr; padding: 48px 40px; }
-  .cta-actions { flex-direction: row; }
-  .hero-body-row { grid-template-columns: 1fr; gap: 40px; }
-  .process-grid { grid-template-columns: repeat(2, 1fr); }
-  .process-grid::before { display: none; }
+  .bento-grid { grid-template-columns: repeat(2, 1fr); }
+  .bento-large { grid-column: span 2; }
 }
-@media (max-width: 720px) {
-  .feat-grid { grid-template-columns: 1fr; }
-  .modular-grid { grid-template-columns: 1fr; }
-  .m-card.span22, .m-card.span21, .m-card.span12, .m-card.span11 { grid-column: span 1; grid-row: auto; }
+@media (max-width: 768px) {
   .nav-center { display: none; }
-  .hero-title { font-size: 46px; }
-  .form-row.cols-2, .form-row.cols-13 { grid-template-columns: 1fr; }
-  .cta-banner { border-radius: var(--r-lg); padding: 40px 28px; }
+  .hero h1 { font-size: 42px; }
+  .hero-buttons { flex-direction: column; width: 100%; }
+  .hero-buttons a { width: 100%; text-align: center; }
+  .bento-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
+  .bento-large, .bento-tall { grid-column: span 1; grid-row: auto; min-height: 300px; }
 }
 </style>
 </head>
 <body>
 
 <nav class="navbar" id="navbar">
-  <div class="nav-brand" onclick="go('landing')">
-    hire95<span class="nav-brand-dot"></span>
-  </div>
+  <a href="index.html" class="nav-brand">
+    <img src="logo.png" alt="hire95">
+  </a>
   <div class="nav-center">
-    <button class="nav-pill active" id="np-landing" onclick="go('landing')">Platform</button>
-    <button class="nav-pill" id="np-candidate" onclick="go('candidate')">Candidate</button>
-    <button class="nav-pill" id="np-recruiter" onclick="go('recruiter')">Recruiter</button>
+    <a href="#features" class="nav-link">Features</a>
+    <a href="candidate.html" class="nav-link">For Candidates</a>
+    <a href="candidate.html#recruiter" class="nav-link">For Recruiters</a>
   </div>
-  <button class="nav-cta" onclick="go('candidate')">Join the Bank →</button>
+  <div class="nav-actions">
+    <a href="candidate.html" class="btn-login">Log In</a>
+    <a href="candidate.html" class="btn-cta">Go to App</a>
+  </div>
 </nav>
 
-<div id="pg-landing" class="page active">
-
-  <section class="hero wrap">
-    <div class="hero-eyebrow">
-      <span class="hero-eyebrow-badge">NEW</span>
-      The Structured Hiring Era — v2.0 Launch
-    </div>
-    <h1 class="hero-title">
-      Hire Faster.<br>
-      With <span class="line-accent">Zero</span> Noise.<br>
-      <span class="line-tag">Data-First.</span>
-    </h1>
-    <div class="hero-body-row">
-      <div>
-        <p class="hero-desc">hire95 is a hyper-structured talent data bank. Candidates build clean, modular profiles. Recruiters get instant, standardized access to real talent — structured data, zero noise.</p>
-        <div class="hero-actions">
-          <button class="btn-hero-primary" onclick="go('candidate')">Build Your Profile</button>
-          <button class="btn-hero-ghost" onclick="go('recruiter')">Search Talent Pool →</button>
-        </div>
-      </div>
-
-      <div class="hero-visual-area">
-        <div class="hero-stat-grid">
-          <div class="hero-stat-card accent-card">
-            <div class="stat-num">4,800+</div>
-            <div class="stat-label">Verified Profiles in Bank</div>
-          </div>
-          <div class="hero-stat-card">
-            <div class="stat-num" style="color:var(--accent)">98%</div>
-            <div class="stat-label">Recruiter Satisfaction Score</div>
-          </div>
-          <div class="hero-stat-card purple-card wide" style="display:flex; align-items:center; justify-content:space-between;">
-            <div>
-              <div class="stat-num" style="color:var(--accent)">3.2s</div>
-              <div class="stat-label" style="color:var(--accent)">Avg. time to profile match</div>
-            </div>
-            <div style="display:flex; flex-direction:column; gap:8px; align-items:flex-end;">
-              <span class="floating-tag"><span class="tag-dot green"></span> 248 Live Openings</span>
-              <span class="floating-tag"><span class="tag-dot purple"></span> AI-Powered Matching</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="ticker-row">
-    <div class="ticker-inner" id="ticker">
-      <span class="ticker-item">Structured Profiles <span class="ticker-sep">✦</span></span>
-      <span class="ticker-item">Zero Upload Friction <span class="ticker-sep">✦</span></span>
-      <span class="ticker-item">1-Click Apply <span class="ticker-sep">✦</span></span>
-      <span class="ticker-item">Modular Data Bank <span class="ticker-sep">✦</span></span>
-      <span class="ticker-item">Recruiter Search Engine <span class="ticker-sep">✦</span></span>
-      <span class="ticker-item">Pakistan & Remote Ready <span class="ticker-sep">✦</span></span>
-      <span class="ticker-item">ATS-Free Hiring <span class="ticker-sep">✦</span></span>
-      <span class="ticker-item">Skill-First Matching <span class="ticker-sep">✦</span></span>
-      <span class="ticker-item">Structured Profiles <span class="ticker-sep">✦</span></span>
-      <span class="ticker-item">Zero Upload Friction <span class="ticker-sep">✦</span></span>
-      <span class="ticker-item">1-Click Apply <span class="ticker-sep">✦</span></span>
-      <span class="ticker-item">Modular Data Bank <span class="ticker-sep">✦</span></span>
-      <span class="ticker-item">Recruiter Search Engine <span class="ticker-sep">✦</span></span>
-      <span class="ticker-item">Pakistan & Remote Ready <span class="ticker-sep">✦</span></span>
-      <span class="ticker-item">ATS-Free Hiring <span class="ticker-sep">✦</span></span>
-      <span class="ticker-item">Skill-First Matching <span class="ticker-sep">✦</span></span>
-    </div>
+<header class="hero">
+  <div class="hero-badge">
+    <span class="badge-dot">v2.0</span> The Unified Data Bank is Live
   </div>
-
-  <section class="features-section reveal">
-    <div class="section-label">Why hire95</div>
-    <h2 class="section-title">Built for the way<br>hiring <span>actually</span> works.</h2>
-    <div class="feat-grid">
-      <div class="feat-card">
-        <div class="feat-icon">📋</div>
-        <h3>Structured Profiles</h3>
-        <p>No formatting wars. No ATS rejections. Data entered once, parsed perfectly, and matched directly against what recruiters are searching for.</p>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon">⚡</div>
-        <h3>1-Click Apply</h3>
-        <p>Your profile lives in the Data Bank. Every job application is a single click — no re-entering data, no uploading files, no friction.</p>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon">🔍</div>
-        <h3>Recruiter Search Engine</h3>
-        <p>Recruiters query the talent pool like a database. Filter by skills, location, experience. Get structured results instantly.</p>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon">🗂️</div>
-        <h3>Modular UI Views</h3>
-        <p>Each profile is displayed in a beautiful modular grid card layout that highlights key strengths, skills, and value at a glance.</p>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon">📍</div>
-        <h3>Local + Remote Ready</h3>
-        <p>Built for Pakistan-based talent with full remote-work support. Lahore, Gujranwala, Faisalabad, or fully remote — your choice.</p>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon">🔒</div>
-        <h3>Privacy Controlled</h3>
-        <p>You choose what's visible. Manage recruiter access, mark yourself as open or closed, and control your data at all times.</p>
-      </div>
-    </div>
-  </section>
-
-  <div class="roles-strip">
-    <div class="roles-inner" id="roles-ticker">
-      <span class="role-chip accent">Senior React Developer</span>
-      <span class="role-chip">UI/UX Designer</span>
-      <span class="role-chip">Node.js Engineer</span>
-      <span class="role-chip accent">Product Manager</span>
-      <span class="role-chip">Data Analyst</span>
-      <span class="role-chip">DevOps Engineer</span>
-      <span class="role-chip accent">Full Stack Developer</span>
-      <span class="role-chip">Backend Python Dev</span>
-      <span class="role-chip">Cloud Architect</span>
-      <span class="role-chip accent">Mobile Developer</span>
-      <span class="role-chip">QA Engineer</span>
-      <span class="role-chip">ML Engineer</span>
-      <span class="role-chip accent">Senior React Developer</span>
-      <span class="role-chip">UI/UX Designer</span>
-      <span class="role-chip">Node.js Engineer</span>
-      <span class="role-chip accent">Product Manager</span>
-      <span class="role-chip">Data Analyst</span>
-      <span class="role-chip">DevOps Engineer</span>
-      <span class="role-chip accent">Full Stack Developer</span>
-      <span class="role-chip">Backend Python Dev</span>
-      <span class="role-chip">Cloud Architect</span>
-    </div>
+  <h1>Precision Hiring.<br><span>Zero Noise.</span></h1>
+  <p>Stop fighting formatting and ATS rejections. hire95 is a hyper-structured data bank connecting top-tier talent with verified recruiters instantly.</p>
+  <div class="hero-buttons">
+    <a href="candidate.html" class="btn-primary">Build Your Profile</a>
+    <a href="candidate.html" class="btn-secondary" onclick="sessionStorage.setItem('openRecruiter', 'true')">Search Talent Pool</a>
   </div>
+</header>
 
-  <section class="process-section reveal">
-    <div class="section-label">How It Works</div>
-    <h2 class="section-title">Four steps to<br>your next <span>opportunity.</span></h2>
-    <div class="process-grid">
-      <div class="process-step">
-        <div class="step-circle">📝</div>
-        <h4>Fill Your Profile</h4>
-        <p>Enter your skills, experience, and goals into our structured form — takes 5 minutes.</p>
-      </div>
-      <div class="process-step">
-        <div class="step-circle">🏦</div>
-        <h4>Stored in Data Bank</h4>
-        <p>Your profile is indexed, structured, and made searchable for verified recruiters.</p>
-      </div>
-      <div class="process-step">
-        <div class="step-circle">🔍</div>
-        <h4>Recruiter Discovers You</h4>
-        <p>Recruiters search by skill and location. Your modular profile card appears instantly.</p>
-      </div>
-      <div class="process-step">
-        <div class="step-circle">🚀</div>
-        <h4>1-Click Apply</h4>
-        <p>See a relevant opening? Apply in one click. Your data does the heavy lifting.</p>
+<section id="features" class="bento-section">
+  <div class="bento-grid">
+    
+    <div class="bento-card bento-large">
+      <h3>Structured Candidate Data</h3>
+      <p>A single, standardized profile format. We turned the resume into clean API data, ensuring every skill and experience is searchable without clutter.</p>
+      <div class="bento-visual-1">
+        <div class="b-line w-full"></div>
+        <div class="b-line w-half"></div>
+        <div class="b-line w-full accent"></div>
+        <div class="b-line w-half"></div>
       </div>
     </div>
-  </section>
 
-  <div class="cta-banner reveal">
-    <div class="cta-text">
-      <h2>Ready to modernize your career?</h2>
-      <p>Join thousands of professionals who've gone data-first in their careers.</p>
+    <div class="bento-card bento-tall bento-dark">
+      <div class="bento-icon">⚡</div>
+      <h3>One-Click Pipeline</h3>
+      <p>Candidates build their profile once. Applied to any position in seconds. Recruiters query the database instead of sifting through PDFs.</p>
     </div>
-    <div class="cta-actions">
-      <button class="btn-cta-accent" onclick="go('candidate')">Get Started Free</button>
-      <button class="btn-cta-ghost-white" onclick="go('recruiter')">Explore Talent Pool</button>
+
+    <div class="bento-card">
+      <div class="bento-icon">🔍</div>
+      <h3>Advanced Matching</h3>
+      <p>Query exact tech stacks, availability, and local vs remote preferences.</p>
     </div>
+
+    <div class="bento-card">
+      <div class="bento-icon">🔒</div>
+      <h3>Privacy First</h3>
+      <p>Encrypted data storage visible only to verified organizations.</p>
+    </div>
+
   </div>
-</div>
+</section>
 
-
-<div id="pg-candidate" class="page">
-  <div class="cand-page">
-    <div class="cand-header">
-      <h2>Candidate Dashboard</h2>
-      <p>Browse live opportunities or build your profile to enter the Data Bank.</p>
-    </div>
-    <div class="cand-layout">
-
-      <div class="feed-col">
-        <div class="feed-topbar">
-          <span class="feed-topbar-title">Live Opportunities <span class="live-badge">Live</span></span>
-          <span class="feed-count">12 new today</span>
-        </div>
-        <div class="feed-list">
-          <div class="jcard">
-            <div class="jcard-top">
-              <div><div class="jcard-role">Senior React Developer</div><div class="jcard-company">FinTech Global · Remote</div></div>
-              <span class="jcard-salary">$90–$120k</span>
-            </div>
-            <div class="jcard-meta"><span class="jmeta-tag">React.js</span><span class="jmeta-tag">TypeScript</span><span class="jmeta-tag">GraphQL</span></div>
-            <button class="jcard-apply" onclick="toast('Applied to FinTech Global!')">⚡ 1-Click Apply</button>
-          </div>
-          <div class="jcard">
-            <div class="jcard-top">
-              <div><div class="jcard-role">UI Designer & Dev</div><div class="jcard-company">SaaS Innovations · Gujranwala / Hybrid</div></div>
-              <span class="jcard-salary">Competitive</span>
-            </div>
-            <div class="jcard-meta"><span class="jmeta-tag">Figma</span><span class="jmeta-tag">HTML/CSS</span><span class="jmeta-tag">Modern UI</span></div>
-            <button class="jcard-apply" onclick="toast('Applied to SaaS Innovations!')">⚡ 1-Click Apply</button>
-          </div>
-          <div class="jcard">
-            <div class="jcard-top">
-              <div><div class="jcard-role">Full Stack Node.js Dev</div><div class="jcard-company">CloudScale · 100% Remote</div></div>
-              <span class="jcard-salary">$70–$100k</span>
-            </div>
-            <div class="jcard-meta"><span class="jmeta-tag">Node.js</span><span class="jmeta-tag">Firebase</span><span class="jmeta-tag">Mongo</span></div>
-            <button class="jcard-apply" onclick="toast('Applied to CloudScale!')">⚡ 1-Click Apply</button>
-          </div>
-          <div class="jcard">
-            <div class="jcard-top">
-              <div><div class="jcard-role">Product Manager</div><div class="jcard-company">Nexus ERP · Lahore, On-site</div></div>
-              <span class="jcard-salary">PKR 250k+</span>
-            </div>
-            <div class="jcard-meta"><span class="jmeta-tag">Agile</span><span class="jmeta-tag">Scrum</span><span class="jmeta-tag">SaaS</span></div>
-            <button class="jcard-apply" onclick="toast('Applied to Nexus ERP!')">⚡ 1-Click Apply</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="form-col">
-        <div class="form-topbar"></div>
-        <div class="form-inner">
-          <h2>Build Your Data Profile</h2>
-          <p class="form-sub">Fill out your details below to enter the hire95 Data Bank. Once saved, apply anywhere with a single click.</p>
-          <span class="profile-badge">✦ Structured Data Profiles — Modern Hiring Standard</span>
-
-          <form onsubmit="submitForm(event)">
-            <div class="form-row cols-2">
-              <div class="field">
-                <label>Full Legal Name</label>
-                <input type="text" placeholder="e.g. Masood Ahmed" required>
-              </div>
-              <div class="field">
-                <label>Primary Email</label>
-                <input type="email" placeholder="hello@example.com" required>
-              </div>
-            </div>
-            <div class="form-row cols-2">
-              <div class="field">
-                <label>Professional Title</label>
-                <input type="text" placeholder="e.g. Web Developer & UI Designer" required>
-              </div>
-              <div class="field">
-                <label>Current Location</label>
-                <input type="text" placeholder="e.g. Sheikhupura, Pakistan" required>
-              </div>
-            </div>
-            <div class="form-row cols-13">
-              <div class="field">
-                <label>Experience (Years)</label>
-                <input type="number" placeholder="3" min="0" max="40" required>
-              </div>
-              <div class="field">
-                <label>Core Tech Stack (comma separated)</label>
-                <input type="text" placeholder="HTML, CSS, JavaScript, React, Node.js" required>
-              </div>
-            </div>
-
-            <div style="margin-bottom:24px;">
-              <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);margin-bottom:12px;">Availability</div>
-              <div class="availability-row" id="avail-row">
-                <button type="button" class="avail-btn selected" onclick="toggleAvail(this)">Full-Time</button>
-                <button type="button" class="avail-btn" onclick="toggleAvail(this)">Part-Time</button>
-                <button type="button" class="avail-btn" onclick="toggleAvail(this)">Remote Only</button>
-                <button type="button" class="avail-btn" onclick="toggleAvail(this)">Open to Relocation</button>
-                <button type="button" class="avail-btn" onclick="toggleAvail(this)">Freelance</button>
-              </div>
-            </div>
-
-            <div class="form-row cols-1">
-              <div class="field">
-                <label>Detailed Work Experience</label>
-                <textarea rows="5" placeholder="• Web Developer @ IPAK (2023–Present) — Developed portals and tools...&#10;• UI Engineer @ Tech (2021–2023) — Created custom SaaS layouts..." required></textarea>
-              </div>
-            </div>
-            <div class="form-row cols-1">
-              <div class="field">
-                <label>Professional Summary</label>
-                <textarea rows="3" placeholder="A brief elevator pitch about who you are and what unique value you bring..." required></textarea>
-              </div>
-            </div>
-            <div class="form-row cols-2">
-              <div class="field">
-                <label>LinkedIn URL (Optional)</label>
-                <input type="url" placeholder="https://linkedin.com/in/username">
-              </div>
-              <div class="field">
-                <label>Portfolio / GitHub (Optional)</label>
-                <input type="url" placeholder="https://github.com/username">
-              </div>
-            </div>
-
-            <button type="submit" class="form-submit">Save to Data Bank →</button>
-            <p class="form-footer-note">Your profile is encrypted and only visible to verified hire95 recruiters.</p>
-          </form>
-        </div>
-      </div>
-    </div>
+<section class="bottom-cta">
+  <div class="cta-box">
+    <h2>Ready to join the network?</h2>
+    <p>Whether you're looking for your next role or your next hire, the Data Bank is open.</p>
+    <a href="candidate.html" class="btn-primary">Enter the Platform →</a>
   </div>
-</div>
-
-
-<div id="pg-recruiter" class="page">
-  <div class="rec-page">
-    <div class="rec-hero">
-      <div class="section-label">Recruiter Access</div>
-      <h2>Find <em>exactly</em> who<br>you're looking for.</h2>
-      <p>Query our structured talent pool. Every profile is standardized, verified, and searchable.</p>
-    </div>
-
-    <div class="rec-search-wrap">
-      <input type="text" class="rec-search-input" placeholder="Search by role, skill, or location — e.g. 'React Developer in Punjab'" id="rec-q">
-      <button class="rec-search-btn" onclick="doSearch()">Search Bank →</button>
-    </div>
-
-    <div class="filter-row">
-      <span class="filter-chip on" onclick="toggleFilter(this)">All Profiles</span>
-      <span class="filter-chip" onclick="toggleFilter(this)">Frontend</span>
-      <span class="filter-chip" onclick="toggleFilter(this)">Backend</span>
-      <span class="filter-chip" onclick="toggleFilter(this)">Design</span>
-      <span class="filter-chip" onclick="toggleFilter(this)">Product</span>
-      <span class="filter-chip" onclick="toggleFilter(this)">Remote Ready</span>
-      <span class="filter-chip" onclick="toggleFilter(this)">5+ Years</span>
-      <span class="filter-chip" onclick="toggleFilter(this)">Available Now</span>
-    </div>
-
-    <div class="modular-grid">
-      <div class="m-card span22 featured">
-        <div class="top-match-tag">Top Match</div>
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
-          <div>
-            <div class="cand-name">Masood A.</div>
-            <div class="cand-role">Web Developer & UI Designer</div>
-            <div class="cand-loc">📍 Sheikhupura, Punjab — Open to Remote</div>
-          </div>
-          <div style="background:var(--ink);color:white;font-size:12px;font-weight:600;padding:6px 14px;border-radius:100px;">3+ Yrs Exp</div>
-        </div>
-        <p class="cand-bio">Specializes in hyper-professional SaaS interfaces, custom portals, and structured UI systems. Built complete products from scratch using modern stacks. Available immediately for full-time or remote contracts.</p>
-        <div class="skill-chips" style="margin-bottom:24px;">
-          <span class="skill-chip">HTML/CSS/JS</span>
-          <span class="skill-chip">React</span>
-          <span class="skill-chip">Node.js</span>
-          <span class="skill-chip">SaaS UI</span>
-          <span class="skill-chip">Firebase</span>
-        </div>
-        <button class="btn-contact" style="background:var(--accent);border:none;color:white;font-weight:600;" onclick="toast('Contact request sent to Masood!')">Contact via hire95 →</button>
-      </div>
-
-      <div class="m-card span12">
-        <div class="cand-avatar" style="background:#4f46e5">SA</div>
-        <div class="cand-name" style="font-size:22px;">Sarah A.</div>
-        <div class="cand-role" style="color:var(--ink-2);">Product Manager</div>
-        <div class="cand-loc">📍 Remote · 5 Yrs Exp</div>
-        <p class="cand-bio" style="font-size:14px; margin-top:12px;">Led product development for 3 B2B SaaS products. Scrum-certified, strong cross-functional communicator.</p>
-        <div class="skill-chips" style="margin-top:auto; margin-bottom:20px;">
-          <span class="skill-chip">Agile</span><span class="skill-chip">Scrum</span><span class="skill-chip">Roadmap</span>
-        </div>
-        <button class="btn-contact" onclick="toast('Contact request sent to Sarah!')">Contact →</button>
-      </div>
-
-      <div class="m-card span12">
-        <div class="cand-avatar" style="background:#0ea5e9">AK</div>
-        <div class="cand-name" style="font-size:22px;">Ali K.</div>
-        <div class="cand-role" style="color:var(--ink-2);">Backend Engineer</div>
-        <div class="cand-loc">📍 Lahore · 4 Yrs Exp</div>
-        <p class="cand-bio" style="font-size:14px; margin-top:12px;">Expert in scalable Python microservices and AWS infrastructure. Built systems handling 1M+ daily requests.</p>
-        <div class="skill-chips" style="margin-top:auto; margin-bottom:20px;">
-          <span class="skill-chip">Python</span><span class="skill-chip">AWS</span><span class="skill-chip">Docker</span>
-        </div>
-        <button class="btn-contact" onclick="toast('Contact request sent to Ali!')">Contact →</button>
-      </div>
-
-      <div class="m-card span21 m-card-accent">
-        <div class="stat-mini">4,800+</div>
-        <div class="stat-mini-label">Profiles in the Data Bank</div>
-        <div style="margin-top:auto; font-size:13px; color:rgba(255,255,255,0.6); font-weight:500;">Updated in real-time · New profiles daily</div>
-      </div>
-
-      <div class="m-card span11">
-        <div class="cand-avatar" style="background:#e11d48; width:44px; height:44px; font-size:15px;">ZM</div>
-        <div class="cand-name" style="font-size:18px; margin-bottom:4px;">Zara M.</div>
-        <div class="cand-role" style="color:var(--ink-2); font-size:13px;">Flutter Developer</div>
-        <div class="cand-loc" style="font-size:12px;">📍 Karachi · 2 Yrs</div>
-        <div class="skill-chips" style="margin-top:auto;">
-          <span class="skill-chip">Flutter</span><span class="skill-chip">Dart</span>
-        </div>
-      </div>
-
-      <div class="m-card span11 m-card-skill-display">
-        <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--accent);margin-bottom:16px;">Trending Skills</div>
-        <div style="display:flex; flex-direction:column; gap:10px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; font-size:14px; font-weight:500;">React.js <span style="background:white;padding:2px 10px;border-radius:100px;font-size:11px;color:var(--accent);font-weight:600;">412 devs</span></div>
-          <div style="display:flex; justify-content:space-between; align-items:center; font-size:14px; font-weight:500;">Node.js <span style="background:white;padding:2px 10px;border-radius:100px;font-size:11px;color:var(--accent);font-weight:600;">318 devs</span></div>
-          <div style="display:flex; justify-content:space-between; align-items:center; font-size:14px; font-weight:500;">Python <span style="background:white;padding:2px 10px;border-radius:100px;font-size:11px;color:var(--accent);font-weight:600;">275 devs</span></div>
-          <div style="display:flex; justify-content:space-between; align-items:center; font-size:14px; font-weight:500;">Flutter <span style="background:white;padding:2px 10px;border-radius:100px;font-size:11px;color:var(--accent);font-weight:600;">198 devs</span></div>
-        </div>
-      </div>
-
-      <div class="m-card span21">
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
-          <div>
-            <div class="cand-avatar" style="background:#475569; width:44px; height:44px; font-size:15px;">HB</div>
-            <div class="cand-name" style="font-size:20px;">Hassan B.</div>
-            <div class="cand-role" style="color:var(--ink-2);">DevOps / Cloud Engineer</div>
-            <div class="cand-loc">📍 Islamabad · Remote · 6 Yrs</div>
-          </div>
-          <button class="btn-contact" style="width:auto;padding:10px 20px;" onclick="toast('Contact request sent to Hassan!')">Contact →</button>
-        </div>
-        <div class="skill-chips">
-          <span class="skill-chip">AWS</span><span class="skill-chip">Kubernetes</span><span class="skill-chip">Terraform</span><span class="skill-chip">CI/CD</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+</section>
 
 <footer>
-  <strong>hire95</strong> · The Hyper-Structured Talent Data Bank · Built for precision hiring, zero noise.
+  <p>&copy; 2026 hire95. All rights reserved. Designed with precision.</p>
 </footer>
 
-<div class="success-toast" id="toast">
-  <span class="toast-icon">✅</span>
-  <span id="toast-msg">Action completed.</span>
-</div>
-
 <script>
-// Navigation
-function go(section) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-pill').forEach(p => p.classList.remove('active'));
-  document.getElementById('pg-' + section).classList.add('active');
-  document.getElementById('np-' + section).classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  initReveal();
-}
-
-// Navbar scroll
-window.addEventListener('scroll', () => {
-  document.getElementById('navbar').classList.toggle('compact', window.scrollY > 60);
-});
-
-// Scroll reveal
-function initReveal() {
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-}
-initReveal();
-
-// Toast
-let toastTimer;
-function toast(msg) {
-  const t = document.getElementById('toast');
-  document.getElementById('toast-msg').textContent = msg;
-  t.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
-}
-
-// Form submit
-function submitForm(e) {
-  e.preventDefault();
-  toast('🎉 Profile saved to hire95 Data Bank! You can now 1-Click Apply.');
-  e.target.reset();
-  document.querySelectorAll('.avail-btn').forEach((b,i) => {
-    b.classList.remove('selected');
-    if(i===0) b.classList.add('selected');
+  // Navbar blur effect on scroll
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    if (window.scrollY > 50) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
   });
-}
 
-// Availability buttons
-function toggleAvail(btn) {
-  btn.classList.toggle('selected');
-}
-
-// Filter chips
-function toggleFilter(chip) {
-  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('on'));
-  chip.classList.add('on');
-}
-
-// Search
-function doSearch() {
-  const q = document.getElementById('rec-q').value.trim();
-  if(q) toast('Searching Data Bank for: "' + q + '" — Matches found.');
-  else toast('Showing all 4,800+ profiles in the Data Bank.');
-}
-
-// Enter key for search
-document.addEventListener('keydown', e => {
-  if(e.key === 'Enter' && document.getElementById('rec-q') === document.activeElement) doSearch();
-});
+  // Small logic trick: If user clicks "Search Talent Pool", we can store a session variable 
+  // to trigger the Recruiter tab automatically when candidate.html loads.
+  // In candidate.html, you can add:
+  // if(sessionStorage.getItem('openRecruiter')) { go('recruiter'); sessionStorage.removeItem('openRecruiter'); }
 </script>
+
 </body>
 </html>
