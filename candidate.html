@@ -61,6 +61,8 @@ body {
   background-size: 32px 32px, 100% 100%;
 }
 
+a { text-decoration: none; color: inherit; }
+
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--muted-2); border-radius: 10px; }
@@ -138,7 +140,7 @@ body {
 .feed-topbar { padding: 20px 24px; border-bottom: 1px solid rgba(226, 232, 240, 0.7); display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.5); }
 .feed-topbar-title { font-family: var(--font-display); font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 8px; color: var(--ink); }
 .live-badge { background: rgba(16, 185, 129, 0.1); color: #10B981; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; padding: 4px 10px; border-radius: 100px; }
-.feed-list { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+.feed-list { flex: 1; overflow:y: auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
 
 .jcard { background: white; border: 1px solid rgba(226, 232, 240, 0.8); border-radius: 16px; padding: 20px; cursor: pointer; transition: all 0.3s ease; position: relative; box-shadow: var(--shadow-sm); }
 .jcard::after { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 4px; height: 0; background: var(--brand-gradient); border-radius: 0 4px 4px 0; transition: height 0.3s ease; }
@@ -242,9 +244,9 @@ body {
 <body>
 
 <nav class="navbar" id="navbar">
-  <div class="nav-brand" onclick="go('candidate')">
+  <a href="index.html" class="nav-brand">
     <img src="logo.png" alt="hire95">
-  </div>
+  </a>
   <div class="nav-center">
     <button class="nav-link active" id="np-candidate" onclick="go('candidate')">Candidate Platform</button>
     <button class="nav-link" id="np-recruiter" onclick="go('recruiter')">Recruiter Search</button>
@@ -255,7 +257,6 @@ body {
   </div>
 </nav>
 
-<!-- CANDIDATE PAGE -->
 <div id="pg-candidate" class="page active">
   <div class="cand-page">
     <div class="cand-header">
@@ -267,7 +268,6 @@ body {
     </div>
     <div class="cand-layout">
 
-      <!-- Dynamic Jobs Feed -->
       <div class="feed-col">
         <div class="feed-topbar">
           <span class="feed-topbar-title">Live Opportunities <span class="live-badge">Live</span></span>
@@ -279,7 +279,6 @@ body {
         </div>
       </div>
 
-      <!-- General Data Profile Form -->
       <div class="form-col">
         <div class="form-topbar"></div>
         <div class="form-inner">
@@ -330,7 +329,6 @@ body {
               </div>
             </div>
 
-            <!-- Dynamic Experience Container -->
             <div class="field" style="margin-bottom: 24px;">
               <label>Work Experience</label>
               <div id="exp-container">
@@ -370,7 +368,6 @@ body {
   </div>
 </div>
 
-<!-- RECRUITER PAGE -->
 <div id="pg-recruiter" class="page">
   <div class="rec-page">
     <div class="rec-hero">
@@ -386,8 +383,7 @@ body {
     </div>
 
     <div class="modular-grid" id="rec-grid">
-      <!-- Dynamic Google Sheets Candidates will load here -->
-    </div>
+      </div>
   </div>
 </div>
 
