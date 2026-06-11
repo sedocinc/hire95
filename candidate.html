@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>hire95 — Talent Data Bank</title>
+<title>hire95 — Candidate Dashboard</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-/* ── VARIABLES FROM PREMIUM THEME ── */
+/* ── VARIABLES ── */
 :root {
   --ink: #0F172A;
   --ink-2: #1E293B;
@@ -19,18 +19,13 @@
   --muted-2: #94A3B8;
   --surface: #ffffff;
   --bg: #F8FAFC;
-  
-  /* Brand Palette */
   --brand-blue: #2563EB;
   --brand-purple: #7C3AED;
   --brand-pink: #DB2777;
   --brand-cyan: #06B6D4;
-  
-  /* Gradients */
   --brand-gradient: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 50%, #EC4899 100%);
   --brand-glow: radial-gradient(circle, rgba(139,92,246,0.15) 0%, transparent 100%);
   --card-gradient: linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.6) 100%);
-  
   --border: rgba(226, 232, 240, 0.8);
   --r-sm: 14px;
   --r-md: 24px;
@@ -38,8 +33,6 @@
   --r-xl: 56px;
   --font-display: 'Outfit', sans-serif;
   --font-body: 'Inter', sans-serif;
-  
-  /* Shadows */
   --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.04);
   --shadow-card: 0 16px 40px -10px rgba(15, 23, 42, 0.08);
   --shadow-float: 0 30px 60px -12px rgba(139, 92, 246, 0.15);
@@ -65,7 +58,7 @@ body {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--muted-2); border-radius: 10px; }
 
-/* ── NAVBAR (Premium Theme) ── */
+/* ── NAVBAR ── */
 .navbar {
   position: fixed; top: 0; width: 100%; z-index: 100;
   padding: 24px 5%;
@@ -95,10 +88,11 @@ body {
 }
 .nav-link {
   font-family: var(--font-body); font-size: 14px; font-weight: 600; color: var(--muted);
-  padding: 10px 24px; border-radius: 100px; transition: all 0.3s ease; border: none; background: transparent; cursor: pointer;
+  padding: 10px 24px; border-radius: 100px; transition: all 0.3s ease;
+  text-decoration: none; display: inline-block;
 }
 .nav-link:hover { color: var(--ink); background: #F1F5F9; }
-.nav-link.active { background: white; color: var(--brand-purple); border-color: rgba(124, 58, 237, 0.2); box-shadow: 0 2px 8px rgba(139,92,246,0.05); }
+.nav-link.active { background: white; color: var(--brand-purple); box-shadow: 0 2px 8px rgba(139,92,246,0.05); }
 
 .nav-actions { display: flex; gap: 8px; align-items: center; }
 .btn-login { 
@@ -114,9 +108,11 @@ body {
 }
 .btn-signup:hover { background: var(--brand-purple); box-shadow: var(--shadow-glow); transform: translateY(-2px); }
 
-/* LAYOUT */
-.page { display: none; animation: pageIn 0.6s cubic-bezier(0.16,1,0.3,1) forwards; padding-top: 100px; }
-.page.active { display: block; }
+/* ── PAGE WRAPPER ── */
+.page-wrapper {
+  padding-top: 100px;
+  animation: pageIn 0.6s cubic-bezier(0.16,1,0.3,1) forwards;
+}
 @keyframes pageIn { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
 
 .btn-outline { background: transparent; color: var(--ink); border: 1px solid var(--border); font-family: var(--font-body); font-size: 13px; font-weight: 600; padding: 10px 16px; border-radius: 100px; cursor: pointer; transition: all 0.2s; box-shadow: var(--shadow-sm); }
@@ -181,44 +177,6 @@ body {
 .form-submit { width: 100%; background: var(--ink); color: white; font-family: var(--font-body); font-size: 15px; font-weight: 600; padding: 16px; border-radius: 100px; border: none; cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); margin-top: 24px; }
 .form-submit:hover { background: var(--brand-purple); transform: translateY(-3px); box-shadow: var(--shadow-glow); }
 
-/* ── RECRUITER PAGE ── */
-.rec-page { padding: 48px 5%; max-width: 1300px; margin: 0 auto; }
-.rec-hero { text-align: center; margin-bottom: 48px; }
-.rec-hero h2 { font-family: var(--font-display); font-size: clamp(36px, 5vw, 64px); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 16px; color: var(--ink); }
-.rec-hero h2 span { background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.rec-hero p { font-size: 18px; color: var(--muted); max-width: 600px; margin: 0 auto 36px; line-height: 1.6; }
-.rec-search-wrap { max-width: 700px; margin: 0 auto 60px; background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 100px; padding: 8px 8px 8px 28px; display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow-float); transition: all 0.3s ease; backdrop-filter: blur(10px); }
-.rec-search-wrap:focus-within { border-color: var(--brand-purple); box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.15), var(--shadow-float); }
-.rec-search-input { flex: 1; border: none; outline: none; font-family: var(--font-body); font-size: 16px; background: transparent; color: var(--ink); }
-.rec-search-btn { background: var(--ink); color: white; font-family: var(--font-body); font-size: 15px; font-weight: 600; padding: 14px 32px; border-radius: 100px; border: none; cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
-.rec-search-btn:hover { background: var(--brand-purple); transform: translateY(-2px); box-shadow: var(--shadow-glow); }
-.modular-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: minmax(220px, auto); gap: 24px; }
-.m-card { background: var(--card-gradient); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.6); border-radius: var(--r-md); padding: 28px; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); display: flex; flex-direction: column; box-shadow: var(--shadow-card); position: relative; overflow: hidden; }
-.m-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-float); border-color: rgba(139, 92, 246, 0.25); background: rgba(255, 255, 255, 0.95); }
-.m-card.span22 { grid-column: span 2; grid-row: span 2; }
-.m-card.span12 { grid-column: span 1; grid-row: span 2; }
-.m-card.span21 { grid-column: span 2; grid-row: span 1; }
-.m-card.span11 { grid-column: span 1; grid-row: span 1; }
-.m-card.featured { background: linear-gradient(145deg, #0B0F19 0%, #162032 100%); border-color: rgba(255, 255, 255, 0.08); color: white; }
-.m-card.featured:hover { background: linear-gradient(145deg, #0F172A 0%, #1E293B 100%); border-color: rgba(56, 189, 248, 0.3); }
-
-.cand-name { font-family: var(--font-display); font-size: 26px; font-weight: 700; letter-spacing: -0.01em; color: inherit; margin-bottom: 4px; }
-.cand-role { font-size: 14px; color: var(--brand-purple); font-weight: 600; margin-bottom: 6px; }
-.m-card.featured .cand-role { color: #38BDF8; }
-.cand-loc { font-size: 13px; color: var(--muted); margin-bottom: 20px; font-weight: 500; }
-.m-card.featured .cand-loc { color: #94A3B8; }
-.cand-bio { font-size: 14.5px; color: var(--muted); line-height: 1.6; margin-bottom: 24px; white-space: pre-wrap; }
-.m-card.featured .cand-bio { color: #CBD5E1; }
-.skill-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
-.skill-chip { background: white; border: 1px solid var(--border); color: var(--ink-2); font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 16px; box-shadow: var(--shadow-sm); }
-.m-card.featured .skill-chip { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.1); color: white; }
-.top-match-tag { background: var(--brand-gradient); color: white; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 800; padding: 6px 16px; border-radius: 100px; align-self: flex-start; margin-bottom: 20px; }
-.cand-avatar { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 18px; font-weight: 700; color: white; margin-bottom: 14px; flex-shrink: 0; box-shadow: var(--shadow-sm); }
-.btn-contact { margin-top: auto; background: white; border: 1px solid var(--border); color: var(--ink); font-family: var(--font-body); font-size: 13px; font-weight: 600; padding: 12px; border-radius: 8px; cursor: pointer; transition: all 0.2s; width: 100%; box-shadow: var(--shadow-sm); }
-.btn-contact:hover { border-color: var(--brand-purple); color: var(--brand-purple); background: #F8FAFC; }
-.m-card.featured .btn-contact { background: #38BDF8; color: #0F172A; border: none; }
-.m-card.featured .btn-contact:hover { background: white; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(56, 189, 248, 0.2); }
-
 /* Success Toast */
 .success-toast { position: fixed; bottom: 32px; right: 32px; z-index: 999; background: var(--ink); color: white; padding: 18px 28px; border-radius: 100px; box-shadow: var(--shadow-float); display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; transform: translateY(100px); opacity: 0; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
 .success-toast.show { transform: translateY(0); opacity: 1; }
@@ -227,14 +185,9 @@ body {
   .cand-layout { grid-template-columns: 1fr; }
   .feed-col { position: relative; top: auto; height: 500px; }
   .form-col { height: auto; overflow: visible; }
-  .modular-grid { grid-template-columns: repeat(2, 1fr); }
-  .m-card.span22, .m-card.span21 { grid-column: span 2; }
-  .m-card.span12 { grid-column: span 1; }
 }
 @media (max-width: 720px) {
   .nav-center { display: none; }
-  .modular-grid { grid-template-columns: 1fr; }
-  .m-card.span22, .m-card.span21, .m-card.span12, .m-card.span11 { grid-column: span 1; grid-row: auto; }
   .form-row.cols-2 { grid-template-columns: 1fr; }
 }
 </style>
@@ -246,8 +199,8 @@ body {
     <img src="logo.png" alt="hire95">
   </div>
   <div class="nav-center">
-    <button class="nav-link active" id="np-candidate" onclick="go('candidate')">Candidate Platform</button>
-    <button class="nav-link" id="np-recruiter" onclick="go('recruiter')">Recruiter Search</button>
+    <a href="candidate.html" class="nav-link active">Candidate</a>
+    <a href="recruiter.html" class="nav-link">Hire</a>
   </div>
   <div class="nav-actions">
     <a href="#" class="btn-login">Log In</a>
@@ -255,8 +208,7 @@ body {
   </div>
 </nav>
 
-<!-- CANDIDATE PAGE -->
-<div id="pg-candidate" class="page active">
+<div class="page-wrapper">
   <div class="cand-page">
     <div class="cand-header">
       <div style="display:inline-flex; align-items:center; gap:10px; background:rgba(255,255,255,0.95); border:1px solid rgba(226,232,240,0.9); padding:6px 20px 6px 6px; border-radius:100px; font-size:13px; font-weight:600; color:var(--ink-2); margin-bottom:24px; box-shadow:var(--shadow-sm);">
@@ -265,6 +217,7 @@ body {
       <h2>Candidate Dashboard</h2>
       <p>Browse live opportunities or build your universal profile to enter the Data Bank.</p>
     </div>
+
     <div class="cand-layout">
 
       <!-- Dynamic Jobs Feed -->
@@ -279,7 +232,7 @@ body {
         </div>
       </div>
 
-      <!-- General Data Profile Form -->
+      <!-- Profile Form -->
       <div class="form-col">
         <div class="form-topbar"></div>
         <div class="form-inner">
@@ -321,7 +274,7 @@ body {
 
             <div style="margin-bottom:24px;">
               <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);margin-bottom:12px;">Availability</div>
-              <div class="availability-row" id="avail-row">
+              <div class="availability-row">
                 <button type="button" class="avail-btn selected" onclick="toggleAvail(this)">Full-Time</button>
                 <button type="button" class="avail-btn" onclick="toggleAvail(this)">Part-Time</button>
                 <button type="button" class="avail-btn" onclick="toggleAvail(this)">Remote Only</button>
@@ -330,7 +283,6 @@ body {
               </div>
             </div>
 
-            <!-- Dynamic Experience Container -->
             <div class="field" style="margin-bottom: 24px;">
               <label>Work Experience</label>
               <div id="exp-container">
@@ -366,52 +318,18 @@ body {
           </form>
         </div>
       </div>
-    </div>
-  </div>
-</div>
 
-<!-- RECRUITER PAGE -->
-<div id="pg-recruiter" class="page">
-  <div class="rec-page">
-    <div class="rec-hero">
-      <div style="display:inline-block; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:0.1em; color:var(--brand-purple); margin-bottom:20px; background: rgba(124, 58, 237, 0.1); padding: 6px 16px; border-radius: 100px;">Recruiter Access</div>
-      <h2>Find <span>exactly</span> who<br>you're looking for.</h2>
-      <p>Query our universal structured talent pool. Real professionals, standardized data. Zero noise.</p>
-    </div>
-
-    <div class="rec-search-wrap">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--muted-2)" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-      <input type="text" class="rec-search-input" placeholder="Search by role, skill, or location — e.g. 'Sales in Punjab'" id="rec-q">
-      <button class="rec-search-btn" onclick="searchCandidates()">Search Bank →</button>
-    </div>
-
-    <div class="modular-grid" id="rec-grid">
-      <!-- Dynamic Google Sheets Candidates will load here -->
     </div>
   </div>
 </div>
 
 <div class="success-toast" id="toast">
-  <span class="toast-icon">✨</span>
+  <span>✨</span>
   <span id="toast-msg">Action completed.</span>
 </div>
 
 <script>
-// ==========================================
-// GOOGLE APPS SCRIPT WEB APP URL
-// ==========================================
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz7-xvYOY55kIYrHWOALqrXE9JPsi_HpZEJOIJcOow0Cb7iLJ5Lxooe-_msT-uQVese/exec';
-
-// Navigation
-function go(section) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-link').forEach(p => p.classList.remove('active'));
-  document.getElementById('pg-' + section).classList.add('active');
-  document.getElementById('np-' + section).classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  
-  if(section === 'recruiter') searchCandidates();
-}
 
 window.addEventListener('scroll', () => { 
   const nav = document.getElementById('navbar');
@@ -433,7 +351,6 @@ function toggleAvail(btn) {
   btn.classList.add('selected');
 }
 
-// Dynamic Experience Logic
 function addExpBlock() {
   const container = document.getElementById('exp-container');
   const block = document.createElement('div');
@@ -448,17 +365,13 @@ function addExpBlock() {
   container.appendChild(block);
 }
 
-// 1. Submit Data to Google Sheets
 async function submitForm(e) {
   e.preventDefault();
-  
   const submitBtn = e.target.querySelector('.form-submit');
   submitBtn.textContent = "Saving to Bank...";
   submitBtn.disabled = true;
 
   const activeAvail = document.querySelector('.avail-btn.selected').innerText;
-  
-  // Format all experience blocks into a readable string
   let expString = "";
   document.querySelectorAll('.exp-block').forEach(block => {
     let comp = block.querySelector('.e-company').value;
@@ -486,7 +399,6 @@ async function submitForm(e) {
     await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
     toast('🎉 Profile saved to Data Bank!');
     e.target.reset();
-    
     document.getElementById('exp-container').innerHTML = `
       <div class="exp-block">
         <input type="text" class="e-company" placeholder="Company Name (e.g. IPAK)" required>
@@ -494,7 +406,6 @@ async function submitForm(e) {
         <input type="text" class="e-duration" placeholder="Duration (e.g. 2021 - 2023)" required>
         <textarea class="e-desc" rows="3" placeholder="Key responsibilities and achievements..." required></textarea>
       </div>`;
-      
   } catch (error) {
     toast('❌ Error saving profile.');
   } finally {
@@ -503,15 +414,14 @@ async function submitForm(e) {
   }
 }
 
-// 2. Fetch Jobs for Left Column
 async function loadJobs() {
   const feed = document.getElementById('job-feed');
   try {
     const response = await fetch(SCRIPT_URL + "?action=jobs");
     const jobs = await response.json();
 
-    if(jobs.length === 0) {
-      feed.innerHTML = '<div style="text-align:center; padding:40px 20px; color:var(--muted); font-size:14px;">No live opportunities posted yet. Add some in the Jobs tab!</div>';
+    if (jobs.length === 0) {
+      feed.innerHTML = '<div style="text-align:center; padding:40px 20px; color:var(--muted); font-size:14px;">No live opportunities posted yet.</div>';
       return;
     }
 
@@ -519,11 +429,13 @@ async function loadJobs() {
     jobs.forEach(job => {
       const tagsArray = job.Tags ? String(job.Tags).split(',') : [];
       const tagsHTML = tagsArray.map(t => `<span class="jmeta-tag">${t.trim()}</span>`).join('');
-      
       feed.insertAdjacentHTML('beforeend', `
         <div class="jcard">
           <div class="jcard-top">
-            <div><div class="jcard-role">${job.Role || 'Position'}</div><div class="jcard-company">${job.Company || 'Company'}</div></div>
+            <div>
+              <div class="jcard-role">${job.Role || 'Position'}</div>
+              <div class="jcard-company">${job.Company || 'Company'}</div>
+            </div>
             <span class="jcard-salary">${job.Salary || 'Competitive'}</span>
           </div>
           <div class="jcard-meta">${tagsHTML}</div>
@@ -536,82 +448,7 @@ async function loadJobs() {
   }
 }
 
-// 3. Fetch Candidates for Recruiter Page
-async function searchCandidates() {
-  const q = document.getElementById('rec-q').value.trim().toLowerCase();
-  const grid = document.getElementById('rec-grid');
-  grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--muted);">Fetching professionals from Data Bank...</div>';
-
-  try {
-    const response = await fetch(SCRIPT_URL + "?action=candidates");
-    let candidates = await response.json();
-
-    if (q) {
-      candidates = candidates.filter(c => 
-        (c.Name && String(c.Name).toLowerCase().includes(q)) || 
-        (c.Title && String(c.Title).toLowerCase().includes(q)) ||
-        (c.Skills && String(c.Skills).toLowerCase().includes(q)) ||
-        (c.Location && String(c.Location).toLowerCase().includes(q))
-      );
-    }
-
-    if (candidates.length === 0) {
-      grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--muted);">No matching profiles found for "${q}".</div>`;
-      return;
-    }
-
-    grid.innerHTML = ''; 
-    
-    candidates.forEach((cand, index) => {
-      const skillsArray = cand.Skills ? String(cand.Skills).split(',').slice(0, 4) : [];
-      const skillsHTML = skillsArray.map(skill => `<span class="skill-chip">${skill.trim()}</span>`).join('');
-      const initials = cand.Name ? String(cand.Name).split(' ').map(n => n[0]).join('').substring(0,2).toUpperCase() : '??';
-      
-      const cardClasses = ['span12', 'span22 featured', 'span21', 'span11'];
-      const cardClass = cardClasses[index % cardClasses.length];
-      
-      // Theme colors for avatars (using the new brand palette)
-      const colors = ['#2563EB', '#7C3AED', '#DB2777', '#06B6D4', '#1E293B'];
-      const color = colors[index % colors.length];
-
-      grid.insertAdjacentHTML('beforeend', `
-        <div class="m-card ${cardClass}">
-          ${cardClass.includes('featured') ? '<div class="top-match-tag">Top Match</div>' : ''}
-          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
-            <div>
-              ${!cardClass.includes('featured') ? `<div class="cand-avatar" style="background:${color}">${initials}</div>` : ''}
-              <div class="cand-name" style="${!cardClass.includes('featured') ? 'font-size:22px;' : ''}">${cand.Name || 'Anonymous'}</div>
-              <div class="cand-role" style="${!cardClass.includes('featured') ? 'color:var(--brand-purple);' : ''}">${cand.Title || 'Professional'}</div>
-              <div class="cand-loc">📍 ${cand.Location || 'Remote'}</div>
-            </div>
-            ${cardClass.includes('featured') ? `<div style="background:rgba(255,255,255,0.1);color:white;font-size:12px;font-weight:600;padding:6px 14px;border-radius:100px;border:1px solid rgba(255,255,255,0.2);">${cand.Experience || '0'} Yrs Exp</div>` : ''}
-          </div>
-          <p class="cand-bio" style="${!cardClass.includes('featured') ? 'font-size:14px; margin-top:12px;' : ''}">${cand.Summary || 'No summary provided.'}</p>
-          
-          <div style="margin-top:12px; margin-bottom:16px; font-size:13px; color:inherit; opacity:0.9; display:${cardClass.includes('featured') ? 'block' : 'none'};">
-            <strong>Experience History:</strong><br>${cand.ExpDetail ? cand.ExpDetail.replace(/\n/g, '<br>') : 'N/A'}
-          </div>
-
-          <div class="skill-chips" style="${!cardClass.includes('featured') ? 'margin-top:auto; margin-bottom:20px;' : 'margin-bottom:24px;'}">
-            ${skillsHTML}
-          </div>
-          <button class="btn-contact" onclick="toast('Contact request sent to ${cand.Name ? String(cand.Name).split(' ')[0] : 'candidate'}!')">Contact via hire95 →</button>
-        </div>
-      `);
-    });
-
-  } catch (error) {
-    grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--brand-pink);">Failed to load profiles. Check your Apps Script URL.</div>';
-  }
-}
-
-document.addEventListener('keydown', e => {
-  if(e.key === 'Enter' && document.getElementById('rec-q') === document.activeElement) searchCandidates();
-});
-
-// Load Jobs Feed on Startup
 window.onload = loadJobs;
-
 </script>
 </body>
 </html>
