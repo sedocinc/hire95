@@ -259,7 +259,6 @@ body {
 
     <div class="cand-layout">
 
-      <!-- Dynamic Jobs Feed -->
       <div class="feed-col interactive-card">
         <div class="feed-topbar">
           <span class="feed-topbar-title">Live Opportunities <span class="live-badge">Live</span></span>
@@ -271,7 +270,6 @@ body {
         </div>
       </div>
 
-      <!-- Profile Form -->
       <div class="form-col interactive-card">
         <div class="form-topbar"></div>
         <div class="form-inner">
@@ -367,149 +365,169 @@ body {
   <span id="toast-msg">Action completed.</span>
 </div>
 
-<script>
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz7-xvYOY55kIYrHWOALqrXE9JPsi_HpZEJOIJcOow0Cb7iLJ5Lxooe-_msT-uQVese/exec';
+<script type="module">
+  // Firebase SDKs Import (Using CDN for plain HTML)
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-// Navbar Scroll Effect
-window.addEventListener('scroll', () => { 
-  const nav = document.getElementById('navbar');
-  if (window.scrollY > 50) nav.classList.add('scrolled');
-  else nav.classList.remove('scrolled');
-});
-
-// Spotlight Hover Logic
-function initSpotlight() {
-  document.querySelectorAll('.interactive-card').forEach(card => {
-    card.addEventListener('mousemove', e => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      card.style.setProperty('--mouse-x', `${x}px`);
-      card.style.setProperty('--mouse-y', `${y}px`);
-    });
-  });
-}
-
-// Toast Notification Logic
-let toastTimer;
-function toast(msg) {
-  const t = document.getElementById('toast');
-  document.getElementById('toast-msg').textContent = msg;
-  t.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
-}
-
-function toggleAvail(btn) {
-  document.querySelectorAll('.avail-btn').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-}
-
-function addExpBlock() {
-  const container = document.getElementById('exp-container');
-  const block = document.createElement('div');
-  block.className = 'exp-block';
-  block.innerHTML = `
-    <button type="button" class="exp-remove" onclick="this.parentElement.remove()">Remove</button>
-    <input type="text" class="e-company" placeholder="Company Name (e.g. IPAK)" required>
-    <input type="text" class="e-role" placeholder="Job Role / Title" required>
-    <input type="text" class="e-duration" placeholder="Duration (e.g. 2021 - 2023)" required>
-    <textarea class="e-desc" rows="3" placeholder="Key responsibilities and achievements..." required></textarea>
-  `;
-  container.appendChild(block);
-}
-
-async function submitForm(e) {
-  e.preventDefault();
-  const submitBtn = e.target.querySelector('.form-submit');
-  submitBtn.textContent = "Saving to Bank...";
-  submitBtn.disabled = true;
-
-  const activeAvail = document.querySelector('.avail-btn.selected').innerText;
-  let expString = "";
-  document.querySelectorAll('.exp-block').forEach(block => {
-    let comp = block.querySelector('.e-company').value;
-    let role = block.querySelector('.e-role').value;
-    let dur = block.querySelector('.e-duration').value;
-    let desc = block.querySelector('.e-desc').value;
-    expString += `• ${role} @ ${comp} (${dur})\n  ${desc}\n\n`;
-  });
-
-  const payload = {
-    name: document.getElementById('cand-name').value,
-    email: document.getElementById('cand-email').value,
-    title: document.getElementById('cand-title').value,
-    location: document.getElementById('cand-loc').value,
-    experience: document.getElementById('cand-exp').value,
-    skills: document.getElementById('cand-skills').value,
-    availability: activeAvail,
-    expDetail: expString.trim(),
-    summary: document.getElementById('cand-summary').value,
-    linkedin: document.getElementById('cand-linkedin').value,
-    portfolio: document.getElementById('cand-portfolio').value
+  // Tumhara Firebase Config
+  const firebaseConfig = {
+    apiKey: "AIzaSyDlehTXIzoq5I8ECFE7BhNHbAFmRF9jDxw",
+    authDomain: "hire95-af5ed.firebaseapp.com",
+    projectId: "hire95-af5ed",
+    storageBucket: "hire95-af5ed.firebasestorage.app",
+    messagingSenderId: "341103274453",
+    appId: "1:341103274453:web:fb9322f4a9a7fcc2e3f55c",
+    measurementId: "G-MZBKS3YTXP"
   };
 
-  try {
-    await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
-    toast('🎉 Profile saved to Data Bank!');
-    e.target.reset();
-    document.getElementById('exp-container').innerHTML = `
-      <div class="exp-block">
-        <input type="text" class="e-company" placeholder="Company Name (e.g. IPAK)" required>
-        <input type="text" class="e-role" placeholder="Job Role / Title" required>
-        <input type="text" class="e-duration" placeholder="Duration (e.g. 2021 - 2023)" required>
-        <textarea class="e-desc" rows="3" placeholder="Key responsibilities and achievements..." required></textarea>
-      </div>`;
-  } catch (error) {
-    toast('❌ Error saving profile.');
-  } finally {
-    submitBtn.textContent = "Save Profile to Data Bank →";
-    submitBtn.disabled = false;
-  }
-}
+  // Firebase aur Database Initialize karo
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
-async function loadJobs() {
-  const feed = document.getElementById('job-feed');
-  try {
-    const response = await fetch(SCRIPT_URL + "?action=jobs");
-    const jobs = await response.json();
+  // Navbar Scroll Effect
+  window.addEventListener('scroll', () => { 
+    const nav = document.getElementById('navbar');
+    if (window.scrollY > 50) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  });
 
-    if (jobs.length === 0) {
-      feed.innerHTML = '<div style="text-align:center; padding:40px 20px; color:var(--muted); font-size:14px;">No live opportunities posted yet.</div>';
-      return;
-    }
-
-    feed.innerHTML = '';
-    jobs.forEach(job => {
-      const tagsArray = job.Tags ? String(job.Tags).split(',') : [];
-      const tagsHTML = tagsArray.map(t => `<span class="jmeta-tag">${t.trim()}</span>`).join('');
-      feed.insertAdjacentHTML('beforeend', `
-        <div class="jcard interactive-card">
-          <div class="jcard-top">
-            <div>
-              <div class="jcard-role">${job.Role || 'Position'}</div>
-              <div class="jcard-company">${job.Company || 'Company'}</div>
-            </div>
-            <span class="jcard-salary">${job.Salary || 'Competitive'}</span>
-          </div>
-          <div class="jcard-meta">${tagsHTML}</div>
-          <button class="jcard-apply" onclick="event.stopPropagation(); toast('Applied to ${job.Company}!')">⚡ 1-Click Apply</button>
-        </div>
-      `);
+  // Spotlight Hover Logic
+  window.initSpotlight = function() {
+    document.querySelectorAll('.interactive-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
     });
-    
-    // Re-initialize spotlight effect for dynamically added job cards
-    initSpotlight();
-    
-  } catch(e) {
-    feed.innerHTML = '<div style="text-align:center; padding:40px; color:var(--brand-pink); font-size:14px;">Error connecting to Sheet.</div>';
   }
-}
 
-window.onload = () => {
-  initSpotlight();
-  loadJobs();
-};
+  // Toast Notification Logic
+  let toastTimer;
+  window.toast = function(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toast-msg').textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
+  }
+
+  window.toggleAvail = function(btn) {
+    document.querySelectorAll('.avail-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+  }
+
+  window.addExpBlock = function() {
+    const container = document.getElementById('exp-container');
+    const block = document.createElement('div');
+    block.className = 'exp-block';
+    block.innerHTML = `
+      <button type="button" class="exp-remove" onclick="this.parentElement.remove()">Remove</button>
+      <input type="text" class="e-company" placeholder="Company Name (e.g. IPAK)" required>
+      <input type="text" class="e-role" placeholder="Job Role / Title" required>
+      <input type="text" class="e-duration" placeholder="Duration (e.g. 2021 - 2023)" required>
+      <textarea class="e-desc" rows="3" placeholder="Key responsibilities and achievements..." required></textarea>
+    `;
+    container.appendChild(block);
+  }
+
+  window.submitForm = async function(e) {
+    e.preventDefault();
+    const submitBtn = e.target.querySelector('.form-submit');
+    submitBtn.textContent = "Saving to Bank...";
+    submitBtn.disabled = true;
+
+    const activeAvail = document.querySelector('.avail-btn.selected').innerText;
+    let expString = "";
+    document.querySelectorAll('.exp-block').forEach(block => {
+      let comp = block.querySelector('.e-company').value;
+      let role = block.querySelector('.e-role').value;
+      let dur = block.querySelector('.e-duration').value;
+      let desc = block.querySelector('.e-desc').value;
+      expString += `• ${role} @ ${comp} (${dur})\n  ${desc}\n\n`;
+    });
+
+    const payload = {
+      name: document.getElementById('cand-name').value,
+      email: document.getElementById('cand-email').value,
+      title: document.getElementById('cand-title').value,
+      location: document.getElementById('cand-loc').value,
+      experience: document.getElementById('cand-exp').value,
+      skills: document.getElementById('cand-skills').value,
+      availability: activeAvail,
+      expDetail: expString.trim(),
+      summary: document.getElementById('cand-summary').value,
+      linkedin: document.getElementById('cand-linkedin').value,
+      portfolio: document.getElementById('cand-portfolio').value,
+      createdAt: new Date().toISOString()
+    };
+
+    try {
+      await addDoc(collection(db, "candidates"), payload);
+      window.toast('🎉 Profile saved to Data Bank!');
+      e.target.reset();
+      document.getElementById('exp-container').innerHTML = `
+        <div class="exp-block">
+          <input type="text" class="e-company" placeholder="Company Name (e.g. IPAK)" required>
+          <input type="text" class="e-role" placeholder="Job Role / Title" required>
+          <input type="text" class="e-duration" placeholder="Duration (e.g. 2021 - 2023)" required>
+          <textarea class="e-desc" rows="3" placeholder="Key responsibilities and achievements..." required></textarea>
+        </div>`;
+    } catch (error) {
+      console.error("Error saving to Firebase:", error);
+      window.toast('❌ Error saving profile.');
+    } finally {
+      submitBtn.textContent = "Save Profile to Data Bank →";
+      submitBtn.disabled = false;
+    }
+  }
+
+  window.loadJobs = async function() {
+    const feed = document.getElementById('job-feed');
+    try {
+      const querySnapshot = await getDocs(collection(db, "jobs"));
+
+      if (querySnapshot.empty) {
+        feed.innerHTML = '<div style="text-align:center; padding:40px 20px; color:var(--muted); font-size:14px;">No live opportunities posted yet.</div>';
+        return;
+      }
+
+      feed.innerHTML = '';
+      querySnapshot.forEach((doc) => {
+        const job = doc.data();
+        const tagsArray = job.tags ? String(job.tags).split(',') : [];
+        const tagsHTML = tagsArray.map(t => `<span class="jmeta-tag">${t.trim()}</span>`).join('');
+        
+        feed.insertAdjacentHTML('beforeend', `
+          <div class="jcard interactive-card">
+            <div class="jcard-top">
+              <div>
+                <div class="jcard-role">${job.role || 'Position'}</div>
+                <div class="jcard-company">${job.company || 'Company'}</div>
+              </div>
+              <span class="jcard-salary">${job.salary || 'Competitive'}</span>
+            </div>
+            <div class="jcard-meta">${tagsHTML}</div>
+            <button class="jcard-apply" onclick="event.stopPropagation(); toast('Applied to ${job.company}!')">⚡ 1-Click Apply</button>
+          </div>
+        `);
+      });
+      
+      window.initSpotlight();
+      
+    } catch(e) {
+      console.error("Error loading jobs:", e);
+      feed.innerHTML = '<div style="text-align:center; padding:40px; color:var(--brand-pink); font-size:14px;">Error connecting to Database.</div>';
+    }
+  }
+
+  window.onload = () => {
+    window.initSpotlight();
+    window.loadJobs();
+  };
 </script>
 </body>
 </html>
