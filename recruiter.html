@@ -52,6 +52,38 @@ body {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--muted-2); border-radius: 10px; }
 
+/* ── ANIMATIONS ── */
+@keyframes fadeUp { 
+  from { opacity: 0; transform: translateY(30px); } 
+  to { opacity: 1; transform: translateY(0); } 
+}
+@keyframes fadeDown { 
+  from { opacity: 0; transform: translateY(-20px); } 
+  to { opacity: 1; transform: translateY(0); } 
+}
+
+/* ── SPOTLIGHT EFFECT (Interactive Cards) ── */
+.interactive-card {
+  position: relative;
+  overflow: hidden;
+}
+.interactive-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(
+    600px circle at var(--mouse-x, 0) var(--mouse-y, 0), 
+    rgba(124, 58, 237, 0.08),
+    transparent 40%
+  );
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.interactive-card:hover::before { opacity: 1; }
+.interactive-card > * { position: relative; z-index: 2; }
+
 /* ── NAVBAR ── */
 .navbar {
   position: fixed; top: 0; width: 100%; z-index: 100;
@@ -61,6 +93,7 @@ body {
   backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
   border-bottom: 1px solid rgba(226,232,240,0.4);
   transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+  animation: fadeDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 .navbar.scrolled {
   padding: 16px 5%;
@@ -68,7 +101,8 @@ body {
   box-shadow: var(--shadow-sm);
   border-bottom-color: var(--border);
 }
-.nav-brand { display: flex; align-items: center; cursor: pointer; }
+.nav-brand { display: flex; align-items: center; cursor: pointer; transition: opacity 0.2s; }
+.nav-brand:hover { opacity: 0.8; }
 .nav-brand img { height: 32px; width: auto; display: block; object-fit: contain; }
 .nav-center {
   display: flex; gap: 6px;
@@ -89,7 +123,7 @@ body {
   font-family: var(--font-body); font-size: 14px; font-weight: 600; color: var(--ink-2);
   padding: 12px 24px; border-radius: 100px; transition: all 0.3s; text-decoration: none;
 }
-.btn-login:hover { color: var(--brand-purple); }
+.btn-login:hover { color: var(--brand-purple); background: rgba(15, 23, 42, 0.04); }
 .btn-signup {
   background: var(--ink); color: white; text-decoration: none;
   font-family: var(--font-body); font-size: 14px; font-weight: 600;
@@ -102,9 +136,7 @@ body {
 .page-wrapper {
   padding-top: 88px;
   display: flex; height: 100vh; overflow: hidden;
-  animation: pageIn 0.5s cubic-bezier(0.16,1,0.3,1) both;
 }
-@keyframes pageIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 
 /* ── SIDEBAR ── */
 .sidebar {
@@ -115,6 +147,7 @@ body {
   display: flex; flex-direction: column;
   padding: 28px 16px;
   overflow-y: auto;
+  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
 }
 .sidebar-logo-area {
   padding: 0 8px 24px;
@@ -159,7 +192,7 @@ body {
 .sidebar-divider { height: 1px; background: var(--border); margin: 16px 0; }
 
 /* Stats in sidebar */
-.sidebar-stats { padding: 16px 12px; background: #F8FAFC; border-radius: 14px; margin-top: auto; }
+.sidebar-stats { padding: 16px 12px; background: #F8FAFC; border-radius: 14px; margin-top: auto; border: 1px solid var(--border); }
 .stat-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
 .stat-row:last-child { margin-bottom: 0; }
 .stat-label { font-size: 13px; color: var(--muted); }
@@ -169,6 +202,7 @@ body {
 /* ── MAIN CONTENT ── */
 .main-content {
   flex: 1; display: flex; flex-direction: column; overflow: hidden;
+  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
 }
 
 /* Top bar inside main */
@@ -206,7 +240,7 @@ body {
   border-radius: 8px; cursor: pointer; transition: all 0.2s;
   display: flex; align-items: center; gap: 6px; box-shadow: var(--shadow-sm);
 }
-.filter-btn:hover { border-color: var(--brand-purple); color: var(--brand-purple); }
+.filter-btn:hover { border-color: var(--brand-purple); color: var(--brand-purple); transform: translateY(-1px); }
 .filter-btn.active { background: var(--brand-purple); color: white; border-color: var(--brand-purple); }
 
 /* Candidates list area */
@@ -225,8 +259,9 @@ body {
 .sort-select {
   font-family: var(--font-body); font-size: 13px; color: var(--ink-2);
   background: white; border: 1px solid var(--border); border-radius: 8px;
-  padding: 8px 12px; cursor: pointer; outline: none;
+  padding: 8px 12px; cursor: pointer; outline: none; transition: 0.2s;
 }
+.sort-select:hover { border-color: var(--brand-purple); }
 
 /* ── CANDIDATE CARDS ── */
 .cand-list { display: flex; flex-direction: column; gap: 12px; }
@@ -240,17 +275,18 @@ body {
   cursor: pointer; position: relative; overflow: hidden;
   box-shadow: var(--shadow-sm);
 }
-.cand-card::before {
+/* Left accent strip */
+.cand-card::after {
   content: ''; position: absolute; left: 0; top: 0; bottom: 0;
   width: 3px; background: transparent;
-  transition: background 0.3s;
+  transition: background 0.3s; z-index: 3;
 }
 .cand-card:hover {
   border-color: rgba(124,58,237,0.2);
   box-shadow: var(--shadow-card);
   transform: translateX(2px);
 }
-.cand-card:hover::before { background: var(--brand-gradient); }
+.cand-card:hover::after { background: var(--brand-gradient); }
 
 .cand-avatar {
   width: 52px; height: 52px; border-radius: 50%;
@@ -277,8 +313,9 @@ body {
 .skill-tag {
   background: #F8FAFC; border: 1px solid var(--border);
   color: var(--ink-2); font-size: 12px; font-weight: 500;
-  padding: 3px 10px; border-radius: 6px;
+  padding: 3px 10px; border-radius: 6px; transition: border-color 0.2s;
 }
+.cand-card:hover .skill-tag { border-color: rgba(124, 58, 237, 0.2); }
 
 .cand-meta {
   display: flex; flex-direction: column; align-items: flex-end;
@@ -294,9 +331,9 @@ body {
   background: var(--ink); color: white;
   font-family: var(--font-body); font-size: 13px; font-weight: 600;
   padding: 9px 20px; border-radius: 8px; border: none;
-  cursor: pointer; transition: all 0.25s; white-space: nowrap;
+  cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); white-space: nowrap;
 }
-.btn-view:hover { background: var(--brand-purple); box-shadow: var(--shadow-glow); }
+.btn-view:hover { background: var(--brand-purple); box-shadow: var(--shadow-glow); transform: translateY(-2px); }
 
 /* Empty / Loading states */
 .state-msg {
@@ -381,7 +418,7 @@ body {
   border-radius: 8px; border: 1px solid rgba(124,58,237,0.1);
   transition: all 0.2s;
 }
-.drawer-link:hover { background: rgba(124,58,237,0.1); }
+.drawer-link:hover { background: rgba(124,58,237,0.1); transform: translateX(2px); }
 
 .drawer-footer {
   padding: 20px 28px; border-top: 1px solid var(--border); flex-shrink: 0;
@@ -390,7 +427,7 @@ body {
   width: 100%; background: var(--ink); color: white;
   font-family: var(--font-body); font-size: 15px; font-weight: 600;
   padding: 14px; border-radius: 12px; border: none; cursor: pointer;
-  transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); display: flex; align-items: center; justify-content: center; gap: 8px;
 }
 .btn-contact-full:hover { background: var(--brand-purple); box-shadow: var(--shadow-glow); transform: translateY(-2px); }
 
@@ -442,6 +479,7 @@ body {
     <img src="logo.png" alt="hire95">
   </div>
   <div class="nav-center">
+    <a href="index.html" class="nav-link">Home</a>
     <a href="candidate.html" class="nav-link">Candidate</a>
     <a href="recruiter.html" class="nav-link active">Hire</a>
   </div>
@@ -455,7 +493,7 @@ body {
 <div class="page-wrapper">
 
   <!-- SIDEBAR -->
-  <aside class="sidebar">
+  <aside class="sidebar interactive-card">
     <div class="sidebar-logo-area">
       <div class="sidebar-eyebrow">Recruiter Access</div>
       <div class="sidebar-title">Talent Search</div>
@@ -508,7 +546,7 @@ body {
   <div class="main-content">
 
     <!-- Top search bar -->
-    <div class="main-topbar">
+    <div class="main-topbar interactive-card">
       <div class="search-bar">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--muted-2); flex-shrink:0;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input type="text" id="search-input" placeholder="Search by skill, role, or location..." oninput="handleSearch()">
@@ -611,6 +649,19 @@ window.addEventListener('scroll', () => {
   document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
 });
 
+// ── SPOTLIGHT HOVER LOGIC ──
+function initSpotlight() {
+  document.querySelectorAll('.interactive-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      card.style.setProperty('--mouse-x', `${x}px`);
+      card.style.setProperty('--mouse-y', `${y}px`);
+    });
+  });
+}
+
 // ── TOAST ──
 let toastTimer;
 function showToast(msg) {
@@ -627,7 +678,6 @@ function parseCSV(text) {
   if (lines.length < 2) return [];
   const headers = lines[0].split(',').map(h => h.replace(/"/g,'').trim());
   return lines.slice(1).map(line => {
-    // Handle quoted fields with commas inside
     const cols = [];
     let cur = '', inQuote = false;
     for (let i = 0; i < line.length; i++) {
@@ -649,7 +699,6 @@ async function loadCandidates() {
     const text = await res.text();
     allCandidates = parseCSV(text);
 
-    // Normalize keys (sheet might use different casing)
     allCandidates = allCandidates.map(c => ({
       Name:         c['Name']         || c['name']         || '',
       Email:        c['Email']        || c['email']        || '',
@@ -692,10 +741,8 @@ function updateStats() {
 // ── FILTER & SORT ──
 function filterBy(type) {
   currentFilter = type;
-  // Update sidebar active
   document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
   if (type === 'all') document.querySelectorAll('.sidebar-item')[0].classList.add('active');
-  // Update topbar filter buttons
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   const map = { 'all':'fb-all','Full-Time':'fb-fulltime','Remote Only':'fb-remote','Freelance':'fb-freelance' };
   if (map[type]) document.getElementById(map[type]).classList.add('active');
@@ -725,12 +772,11 @@ function applyFilterAndSort() {
     return matchFilter && matchSearch;
   });
 
-  // Sort
   filtered.sort((a, b) => {
     if (currentSort === 'exp-high') return parseInt(b.Experience||0) - parseInt(a.Experience||0);
     if (currentSort === 'exp-low')  return parseInt(a.Experience||0) - parseInt(b.Experience||0);
     if (currentSort === 'name')     return a.Name.localeCompare(b.Name);
-    return 0; // newest: keep sheet order
+    return 0; 
   });
 
   renderList();
@@ -765,7 +811,7 @@ function renderList() {
     const availLabel = c.Availability || 'Available';
 
     list.insertAdjacentHTML('beforeend', `
-      <div class="cand-card" onclick="openDrawer(${i})">
+      <div class="cand-card interactive-card" onclick="openDrawer(${i})">
         <div class="cand-avatar" style="background:${color}">${initials}</div>
         <div class="cand-info">
           <div class="cand-name-row">
@@ -783,6 +829,9 @@ function renderList() {
       </div>
     `);
   });
+
+  // Re-initialize spotlight for dynamically added cards
+  initSpotlight();
 }
 
 // ── DRAWER ──
@@ -800,11 +849,9 @@ function openDrawer(idx) {
   document.getElementById('d-loc').textContent = (c.Location ? '📍 ' + c.Location : '') + (c.Availability ? '  •  ' + c.Availability : '');
   document.getElementById('d-summary').textContent = c.Summary || 'No summary provided.';
 
-  // Skills
   const skillsHTML = c.Skills.split(',').map(s=>`<span class="drawer-chip">${s.trim()}</span>`).join('');
   document.getElementById('d-skills').innerHTML = skillsHTML || '<span style="color:var(--muted);font-size:13px;">No skills listed</span>';
 
-  // Experience
   if (c.ExpDetail) {
     document.getElementById('d-exp').textContent = c.ExpDetail;
     document.getElementById('d-exp-section').style.display = 'block';
@@ -812,7 +859,6 @@ function openDrawer(idx) {
     document.getElementById('d-exp-section').style.display = 'none';
   }
 
-  // Links
   const linksEl = document.getElementById('d-links');
   const linksSection = document.getElementById('d-links-section');
   linksEl.innerHTML = '';
@@ -830,7 +876,6 @@ function openDrawer(idx) {
   }
   linksSection.style.display = (c.LinkedIn || c.Portfolio) ? 'block' : 'none';
 
-  // Contact button
   document.getElementById('d-contact-btn').onclick = () => {
     showToast(`Contact request sent to ${c.Name.split(' ')[0]}!`);
   };
@@ -846,13 +891,15 @@ function closeDrawer() {
   document.body.style.overflow = '';
 }
 
-// ESC to close
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeDrawer();
 });
 
 // ── INIT ──
-window.onload = loadCandidates;
+window.onload = () => {
+  initSpotlight();
+  loadCandidates();
+};
 </script>
 </body>
 </html>
