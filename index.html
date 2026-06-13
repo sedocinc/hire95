@@ -478,6 +478,29 @@ a, button { text-decoration: none; color: inherit; cursor: pointer; }
 .step-card h4 { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--ink); margin-bottom: 12px; }
 .step-card p { font-size: 15px; color: var(--muted); line-height: 1.6; }
 
+/* ── TESTIMONIALS (hire95 Theme) ── */
+.testimonials-section { max-width: 1200px; margin: 0 auto 140px; padding: 0 5%; text-align: center; overflow: hidden; }
+.t-slider-container { width: 100%; position: relative; padding: 20px 0; mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); }
+.t-track { display: flex; gap: 24px; width: max-content; animation: scrollLeft 40s linear infinite; }
+.t-track:hover { animation-play-state: paused; }
+@keyframes scrollLeft { 0% { transform: translateX(0); } 100% { transform: translateX(calc(-50% - 12px)); } }
+
+.t-card {
+  width: 450px; background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border); border-radius: var(--r-md); padding: 36px; text-align: left;
+  box-shadow: var(--shadow-sm); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s, border-color 0.4s;
+  display: flex; flex-direction: column; justify-content: space-between; gap: 24px;
+}
+.t-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-card); border-color: rgba(139, 92, 246, 0.3); background: white; }
+.t-stars { display: flex; gap: 4px; color: #F59E0B; }
+.t-stars svg { width: 18px; height: 18px; fill: currentColor; }
+.t-card-text { font-size: 16px; color: var(--muted); line-height: 1.7; font-style: italic; font-weight: 500; }
+.t-card-header { display: flex; align-items: center; gap: 16px; padding-top: 16px; border-top: 1px solid rgba(226, 232, 240, 0.5); }
+.t-card-img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; border: 2px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+.t-card-info { display: flex; flex-direction: column; gap: 2px; }
+.t-card-name { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--ink); }
+.t-card-role { font-size: 13px; color: var(--brand-purple); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+
 /* ── CTA FOOTER ── */
 .bottom-cta { max-width: 1200px; margin: 0 auto 100px; padding: 0 5%; }
 .cta-box {
@@ -516,6 +539,7 @@ footer { text-align: center; padding: 40px 5%; border-top: 1px solid var(--borde
   .bento-grid, .how-grid { grid-template-columns: 1fr; grid-auto-rows: auto; gap: 24px; }
   .bento-large, .bento-tall { grid-column: span 1; grid-row: auto; min-height: 320px; }
   .abstract-data-ui { display: none; }
+  .t-card { width: 320px; padding: 24px; }
 }
 </style>
 </head>
@@ -730,6 +754,122 @@ footer { text-align: center; padding: 40px 5%; border-top: 1px solid var(--borde
             <p>Recruiters bypass the noise, connecting with verified active talent based on precise technical queries.</p>
         </div>
     </div>
+</section>
+
+<!-- ── TESTIMONIALS SECTION ── -->
+<section id="testimonials" class="testimonials-section">
+  <div class="section-header" style="margin-bottom: 40px;">
+      <h2>Loved by Talent & Recruiters</h2>
+      <p>The network is expanding. See how we are reshaping modern hiring.</p>
+  </div>
+  
+  <div class="t-slider-container">
+      <div class="t-track">
+          <!-- Card 1: Recruiter -->
+          <div class="t-card">
+              <div>
+                  <div class="t-stars">
+                      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  </div>
+                  <p class="t-card-text">"Finding senior engineers used to take weeks of filtering PDFs. With hire95's structured data bank, I shortlisted 5 verified candidates in my first 10 minutes."</p>
+              </div>
+              <div class="t-card-header">
+                  <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&h=150" alt="Recruiter" class="t-card-img">
+                  <div class="t-card-info">
+                      <span class="t-card-name">Sarah Jenkins</span>
+                      <span class="t-card-role">Technical Recruiter</span>
+                  </div>
+              </div>
+          </div>
+          
+          <!-- Card 2: Candidate -->
+          <div class="t-card">
+              <div>
+                  <div class="t-stars">
+                      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  </div>
+                  <p class="t-card-text">"I built my profile once and stopped sending resumes into the void. Within a week, three companies reached out to me directly with roles that actually matched my stack."</p>
+              </div>
+              <div class="t-card-header">
+                  <img src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&w=150&h=150" alt="Candidate" class="t-card-img">
+                  <div class="t-card-info">
+                      <span class="t-card-name">David Chen</span>
+                      <span class="t-card-role">Senior Full-Stack Dev</span>
+                  </div>
+              </div>
+          </div>
+          
+          <!-- Card 3: Hiring Manager -->
+          <div class="t-card">
+              <div>
+                  <div class="t-stars">
+                      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  </div>
+                  <p class="t-card-text">"The precision matching is unmatched. We filter by absolute tech stacks and exact availability, cutting out all the noise. Best hiring platform on the market."</p>
+              </div>
+              <div class="t-card-header">
+                  <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=150&h=150" alt="VP Engineering" class="t-card-img">
+                  <div class="t-card-info">
+                      <span class="t-card-name">Elena Rodriguez</span>
+                      <span class="t-card-role">VP of Engineering</span>
+                  </div>
+              </div>
+          </div>
+
+          <!-- Duplicate Cards for Infinite Scroll -->
+          <div class="t-card">
+              <div>
+                  <div class="t-stars">
+                      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  </div>
+                  <p class="t-card-text">"Finding senior engineers used to take weeks of filtering PDFs. With hire95's structured data bank, I shortlisted 5 verified candidates in my first 10 minutes."</p>
+              </div>
+              <div class="t-card-header">
+                  <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&h=150" alt="Recruiter" class="t-card-img">
+                  <div class="t-card-info">
+                      <span class="t-card-name">Sarah Jenkins</span>
+                      <span class="t-card-role">Technical Recruiter</span>
+                  </div>
+              </div>
+          </div>
+          
+          <div class="t-card">
+              <div>
+                  <div class="t-stars">
+                      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  </div>
+                  <p class="t-card-text">"I built my profile once and stopped sending resumes into the void. Within a week, three companies reached out to me directly with roles that actually matched my stack."</p>
+              </div>
+              <div class="t-card-header">
+                  <img src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&w=150&h=150" alt="Candidate" class="t-card-img">
+                  <div class="t-card-info">
+                      <span class="t-card-name">David Chen</span>
+                      <span class="t-card-role">Senior Full-Stack Dev</span>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
 </section>
 
 <section class="bottom-cta">
